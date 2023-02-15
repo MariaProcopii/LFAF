@@ -1,8 +1,3 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-
 public class Main {
     public static void main(String[] args) {
         Grammar grammar = new Grammar();
@@ -20,9 +15,9 @@ public class Main {
             grammar.setTerminalVariables(vt[i]);
         }
         grammar.setStartSymbol('S');
+        grammar.setCount(5);
 
-
-        System.out.println(grammar.generateWords() );
+        System.out.println(grammar.generateWords());
 
     }
 }
