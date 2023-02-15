@@ -1,10 +1,10 @@
-import java.lang.reflect.Array;
 import java.util.*;
+import automaton.*;
 public class Grammar {
     private final HashSet<Character> nonTerminalVariables = new HashSet<>();
     private final HashSet<Character> terminalVariables = new HashSet<>();
     private final HashMap<Character, ArrayList<String>> productions = new HashMap<>();
-    private Character startSymbol;
+    private char startSymbol;
     private int count;
 
     public void setCount(int count) {
@@ -23,7 +23,7 @@ public class Grammar {
         }
         productions.get(key).add(val);
     }
-    public void setStartSymbol(Character startSymbol) {
+    public void setStartSymbol(char startSymbol) {
         this.startSymbol = startSymbol;
     }
 
@@ -39,7 +39,7 @@ public class Grammar {
             System.out.print("\n" + startSymbol + " ---> ");
 
             while(!stack.isEmpty()){
-                Character term = stack.pop();
+                char term = stack.pop();
 
                 if(nonTerminalVariables.contains(term)){
                     ArrayList<String> tempArrayRes = productions.get(term);
@@ -60,4 +60,17 @@ public class Grammar {
         System.out.println("\n\n" + "------------------------------------------------\n");
         return result;
     }
+
+    public FiniteAutomaton toFiniteAutomaton(){
+        FiniteAutomaton finiteAutomaton = new FiniteAutomaton();
+
+        finiteAutomaton.setPossibleStates(nonTerminalVariables);
+        finiteAutomaton.setAlphabet(terminalVariables);
+
+        System.out.println(finiteAutomaton.getPossibleStates());
+        System.out.println(finiteAutomaton.getAlphabet());
+
+
+        return finiteAutomaton;
+    };
 }

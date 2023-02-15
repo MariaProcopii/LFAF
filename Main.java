@@ -17,7 +17,7 @@ public class Main {
         grammar.setStartSymbol('S');
         grammar.setCount(5);
 
-        System.out.println(grammar.generateWords());
-
+//        System.out.println(grammar.generateWords());
+        grammar.toFiniteAutomaton();
     }
 }
