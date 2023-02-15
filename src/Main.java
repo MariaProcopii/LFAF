@@ -22,6 +22,6 @@ public class Main {
         System.out.println(grammar.generateWords());
         finiteAutomaton = grammar.toFiniteAutomaton();
 //        finiteAutomaton.printTransitions();
-        finiteAutomaton.wordIsValid("abababaaaa");
+        finiteAutomaton.wordIsValid("abababaaaac");
     }
 }
