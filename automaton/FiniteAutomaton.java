@@ -11,15 +11,21 @@ public class FiniteAutomaton
     private char initialState;
     private char finalState;
 
-    public void setPossibleStates(HashSet<Character> vn) {
+    public FiniteAutomaton(HashSet<Character> vn,
+                           HashSet<Character> vt,
+                           char initialState,
+                           char finalState
+                           ){
+
+        transitions = new ArrayList<>();
         possibleStates = new HashSet<>(vn);
         possibleStates.add('F');
+        alphabet = new HashSet<>(vt);
+        this.initialState = initialState;
+        this.finalState = finalState;
     }
     public HashSet<Character> getPossibleStates() {
         return possibleStates;
-    }
-    public void setAlphabet(HashSet<Character> vt) {
-        alphabet = new HashSet<>(vt);
     }
     public HashSet<Character> getAlphabet() {
         return alphabet;
@@ -27,17 +33,43 @@ public class FiniteAutomaton
     public void setTransitions(Transition transition) {
         transitions.add(transition);
     }
-    public void setInitialState(char initialState) {
-        this.initialState = initialState;
+
+    public ArrayList<Transition> getTransitions() {
+        return transitions;
     }
+    public void printTransitions(){
+        for(Transition el: transitions){
+            System.out.println(el.toString());
+        }
+    }
+
     public char getInitialState() {
         return initialState;
-    }
-    public void setFinalState(char finalState) {
-        this.finalState = finalState;
     }
     public char getFinalState() {
         return finalState;
     }
-    //    public abstract boolean wordIsValid();
+
+        public boolean wordIsValid(String word){
+        boolean valid = false;
+        char currentState = initialState;
+        for(int i = 0; i < word.length(); i++){
+            for(Transition tr : transitions){
+                if(tr.getCurrentState() == currentState &&
+                   tr.getTransitionLabel() == word.charAt(i)){
+
+                    currentState = tr.getNextState();
+                    break;
+                }
+            }
+        }
+        if(currentState == 'F'){
+            valid = true;
+            System.out.println("Word is valid");
+        }
+        else{
+            System.out.println("Word is not valid");
+        }
+        return valid;
+        };
 }

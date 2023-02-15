@@ -1,6 +1,8 @@
+import automaton.*;
 public class Main {
     public static void main(String[] args) {
         Grammar grammar = new Grammar();
+        FiniteAutomaton finiteAutomaton;
 
         char[] vn = {'S', 'B', 'C'};
         char[] vt = {'a', 'b', 'c'};
@@ -17,7 +19,9 @@ public class Main {
         grammar.setStartSymbol('S');
         grammar.setCount(5);
 
-//        System.out.println(grammar.generateWords());
-        grammar.toFiniteAutomaton();
+        System.out.println(grammar.generateWords());
+        finiteAutomaton = grammar.toFiniteAutomaton();
+//        finiteAutomaton.printTransitions();
+        finiteAutomaton.wordIsValid("abababaaaa");
     }
 }

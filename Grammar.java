@@ -62,15 +62,22 @@ public class Grammar {
     }
 
     public FiniteAutomaton toFiniteAutomaton(){
-        FiniteAutomaton finiteAutomaton = new FiniteAutomaton();
-
-        finiteAutomaton.setPossibleStates(nonTerminalVariables);
-        finiteAutomaton.setAlphabet(terminalVariables);
-
-        System.out.println(finiteAutomaton.getPossibleStates());
-        System.out.println(finiteAutomaton.getAlphabet());
-
-
+        FiniteAutomaton finiteAutomaton = new FiniteAutomaton(nonTerminalVariables,
+                                              terminalVariables,
+                                              startSymbol, 'F');
+        for(char key: productions.keySet()){
+            for(String element: productions.get(key)){
+                if(element.length() < 2){
+                    finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
+                                                                  finiteAutomaton.getFinalState()));
+                }
+                else{
+                    finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
+                                                                  element.charAt(1)));
+                }
+            }
+        }
+//        finiteAutomaton.printTransitions();
         return finiteAutomaton;
     };
 }
