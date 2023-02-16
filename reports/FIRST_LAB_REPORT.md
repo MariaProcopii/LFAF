@@ -47,17 +47,46 @@ It has a finite number of states.
 
 ## Implementation description
 
-* About 2-3 sentences to explain each piece of the implementation.
-
-
-* Code snippets from your files.
+First of all I started by implementing the `Grammar` class wich contains a set of terminal, non-terminal variables, hashMap of roductions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap wich contains left side of production ( the key ) and the arraylist of possible right side ellements ( the value ). It checkes if the passed ellement form the list exists in hashMap and add it by key. If it is not pressent, it adds it and make a new arraylist. 
 
 ```
-public static void main() 
-{
+ public void genProductions(char[] prodKey, String[] prodVal) {
+     for(int i = 0; i < prodKey.length; i++){
 
-}
+         if(!productions.containsKey(prodKey[i])){
+             productions.put(prodKey[i], new ArrayList<>());
+         }
+         productions.get(prodKey[i]).add(prodVal[i]);
+         }
+ }
 ```
+
+For generating the words is used the `generateWords()` method. It takes the amount of words we want to create and returns the list of strings created. Also it will print how the strings was created:
+```
+Process of words formation:
+S ---> aB ---> aaC ---> aac ---> [aac]
+...
+
+Final set of words: [ababbbaaaac, abbabbac, aababaaaabac, abbbaaabbbaaaabac, aac]
+```
+This method contains an arraylist with results, an object of random class.
+While the set of results does not contain the amount of strings we need, I create a stack abject in wich plase the start symbol. Next while the stack is not empty ( the string formation is not ready ), I take the symbor from stack, using pop(), and verify if it is a terminal of a non-terminal symbol. If it is not, I use it to get the arraylist from production HashMap ( using it as a key ), randomly select a variant from possible right side ellements and add this symbols in stack in reverse order. If it is terminal,, I just add it in stringbuilder object ( I used the StringBuilder because I need to modify the string and dont want to make a new String in the heap memory ).
+```
+ if(nonTerminalVariables.contains(term)){
+     ArrayList<String> tempArrayRes = productions.get(term);
+     String tempRes = tempArrayRes.get(random.nextInt(tempArrayRes.size()));
+     System.out.print(stringBuilder + tempRes + " ---> ");
+
+     for(int i = tempRes.length() - 1; i >= 0; i--){
+         stack.add(tempRes.charAt(i));
+     }
+ }
+ else{
+     stringBuilder.append(term);
+ }
+ ```
+ 
+
 
 * If needed, screenshots.
 
