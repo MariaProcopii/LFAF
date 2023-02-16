@@ -47,7 +47,7 @@ It has a finite number of states.
 
 ## Implementation description
 
-First of all I started by implementing the `Grammar` class wich contains a set of terminal, non-terminal variables, hashMap of roductions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap wich contains left side of production ( the key ) and the arraylist of possible right side ellements ( the value ). It checkes if the passed ellement form the list exists in hashMap and add it by key. If it is not pressent, it adds it and make a new arraylist. 
+First of all I started by implementing the `Grammar` class wich contains a set of terminal, non-terminal variables, hashMap of productions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap wich contains left side of production ( the key ) and the arraylist of possible right side ellements ( the value ). It checkes if the passed ellement form the list exists in hashMap and add it by key. If it is not pressent, it adds it and make a new arraylist. 
 
 ```
  public void genProductions(char[] prodKey, String[] prodVal) {
@@ -90,9 +90,25 @@ While the set of results does not contain the amount of strings we need, I creat
  }
  ```
  
+Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed decription of this method will be described later.
 
+`Transition` object is used to stare the info about transitions (currentState, transitionLabel, nextState ). Also I override the `toString()` method for printing the transitions list.
 
-* If needed, screenshots.
+`FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side ellement length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side ellement as transitionLabel,  and finalState of automaton as nextState. If the ellement lenght is 2, nextState will be  the second character of ellement.
+
+```
+ if(element.length() < 2){
+     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
+                                    finiteAutomaton.getFinalState()));
+ }
+ else{
+     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
+                                    element.charAt(1)));
+ }
+```
+
+`wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. 
+
 
 
 ## Conclusions / Screenshots / Results
