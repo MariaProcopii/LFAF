@@ -1,27 +1,23 @@
 import automaton.*;
 public class Main {
     public static void main(String[] args) {
-        Grammar grammar = new Grammar();
-        FiniteAutomaton finiteAutomaton;
 
-        char[] vn = {'S', 'B', 'C'};
-        char[] vt = {'a', 'b', 'c'};
-        char[] prodKey = {'S', 'B', 'C', 'C', 'C', 'B'};
-        String[] prodVal = {"aB", "aC", "bB", "c", "aS", "bB"};
+        char[] vn = {'S', 'B', 'C'}; //non terminal variables
+        char[] vt = {'a', 'b', 'c'};  //terminal variables
+        char[] prodKey = {'S', 'B', 'C', 'C', 'C', 'B'};  //left side of production
+        String[] prodVal = {"aB", "aC", "bB", "c", "aS", "bB"};  //right side of production
+        char startSymbol = 'S';
 
-        for(int i = 0; i < prodKey.length; i++){
-            grammar.setProductions(prodKey[i], prodVal[i]);
-        }
-        for(int i = 0; i < vn.length; i++){
-            grammar.setNonTerminalVariables(vn[i]);
-            grammar.setTerminalVariables(vt[i]);
-        }
-        grammar.setStartSymbol('S');
-        grammar.setCount(5);
+        Grammar grammar = new Grammar(vn, vt, prodKey, prodVal, startSymbol);
 
-        System.out.println(grammar.generateWords());
-        finiteAutomaton = grammar.toFiniteAutomaton();
-//        finiteAutomaton.printTransitions();
-        finiteAutomaton.wordIsValid("abababaaaac");
+
+        System.out.println(grammar.generateWords(5)); // set of generated words
+
+        FiniteAutomaton finiteAutomaton = grammar.toFiniteAutomaton();  // converting an object of type Grammar
+                                                                       // to one of type Finite Automaton
+
+//        finiteAutomaton.printTransitions(); // visualize formed transitions set from provided grammar
+        finiteAutomaton.wordIsValid("abababaaaac");  // check the word (function also return a boolean)
+        finiteAutomaton.wordIsValid("abababaaaa");
     }
 }

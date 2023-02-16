@@ -7,9 +7,9 @@ public class FiniteAutomaton
 {
     private HashSet<Character> possibleStates;
     private HashSet<Character> alphabet;
-    private ArrayList<Transition> transitions;
-    private char initialState;
-    private char finalState;
+    private final ArrayList<Transition> transitions;
+    private final char initialState;
+    private final char finalState;
 
     public FiniteAutomaton(HashSet<Character> vn,
                            HashSet<Character> vt,
@@ -24,52 +24,43 @@ public class FiniteAutomaton
         this.initialState = initialState;
         this.finalState = finalState;
     }
-    public HashSet<Character> getPossibleStates() {
-        return possibleStates;
-    }
-    public HashSet<Character> getAlphabet() {
-        return alphabet;
-    }
+
     public void setTransitions(Transition transition) {
         transitions.add(transition);
     }
 
-    public ArrayList<Transition> getTransitions() {
-        return transitions;
-    }
     public void printTransitions(){
+        System.out.println("\nTransitions set: ");
         for(Transition el: transitions){
             System.out.println(el.toString());
         }
     }
 
-    public char getInitialState() {
-        return initialState;
-    }
     public char getFinalState() {
         return finalState;
     }
 
-        public boolean wordIsValid(String word){
-        boolean valid = false;
-        char currentState = initialState;
-        for(int i = 0; i < word.length(); i++){
-            for(Transition tr : transitions){
-                if(tr.getCurrentState() == currentState &&
-                   tr.getTransitionLabel() == word.charAt(i)){
+    public boolean wordIsValid(String word){
+    boolean valid = false;
+    char currentState = initialState;
 
-                    currentState = tr.getNextState();
-                    break;
-                }
+    for(int i = 0; i < word.length(); i++){
+        for(Transition tr : transitions){
+            if(tr.getCurrentState() == currentState &&
+               tr.getTransitionLabel() == word.charAt(i)){
+
+                currentState = tr.getNextState();
+                break;
             }
         }
-        if(currentState == 'F'){
-            valid = true;
-            System.out.println("Word is valid");
-        }
-        else{
-            System.out.println("Word is not valid");
-        }
-        return valid;
-        };
+    }
+    if(currentState == finalState){
+        valid = true;
+        System.out.println("\nWord ["+ word +"] is valid");
+    }
+    else{
+        System.out.println("\nWord ["+ word +"] is not valid");
+    }
+    return valid;
+    }
 }

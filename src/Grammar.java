@@ -4,34 +4,43 @@ public class Grammar {
     private final HashSet<Character> nonTerminalVariables = new HashSet<>();
     private final HashSet<Character> terminalVariables = new HashSet<>();
     private final HashMap<Character, ArrayList<String>> productions = new HashMap<>();
-    private char startSymbol;
-    private int count;
+    private final char startSymbol;
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+    public Grammar(char[] vn, char[] vt, char[] prodKey,
+                   String[] prodVal, char startSymbol){
 
-    public void setNonTerminalVariables(Character s){
-        nonTerminalVariables.add(s);
-    }
-    public void setTerminalVariables(Character s){
-        terminalVariables.add(s);
-    }
-    public void setProductions(Character key, String val) {
-        if(!productions.containsKey(key)){
-            productions.put(key, new ArrayList<>());
-        }
-        productions.get(key).add(val);
-    }
-    public void setStartSymbol(char startSymbol) {
+        genNonTerminalVariables(vn);
+        genTerminalVariables(vt);
+        genProductions(prodKey, prodVal);
         this.startSymbol = startSymbol;
     }
 
-    public ArrayList<String> generateWords(){
+    public void genNonTerminalVariables(char[] vn){
+        for (char c : vn) {
+            nonTerminalVariables.add(c);
+        }
+    }
+    public void genTerminalVariables(char[] vt){
+        for (char c : vt) {
+            terminalVariables.add(c);
+        }
+    }
+    public void genProductions(char[] prodKey, String[] prodVal) {
+        for(int i = 0; i < prodKey.length; i++){
+
+            if(!productions.containsKey(prodKey[i])){
+                productions.put(prodKey[i], new ArrayList<>());
+            }
+            productions.get(prodKey[i]).add(prodVal[i]);
+            }
+    }
+
+    public ArrayList<String> generateWords(int wordsAmount){
         ArrayList<String> result = new ArrayList<>();
         Random random = new Random();
 
-        while(result.size()  < count){
+        System.out.println("\nProcess of words formation:");
+        while(result.size()  < wordsAmount){
             Stack<Character> stack = new Stack<>();
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -57,7 +66,7 @@ public class Grammar {
             result.add(stringBuilder.toString());
             System.out.print("[" + stringBuilder + "]");
         }
-        System.out.println("\n\n" + "------------------------------------------------\n");
+        System.out.print("\n\n" + "Final set of words: ");
         return result;
     }
 
@@ -69,15 +78,14 @@ public class Grammar {
             for(String element: productions.get(key)){
                 if(element.length() < 2){
                     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
-                                                                  finiteAutomaton.getFinalState()));
+                                                   finiteAutomaton.getFinalState()));
                 }
                 else{
                     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
-                                                                  element.charAt(1)));
+                                                   element.charAt(1)));
                 }
             }
         }
-//        finiteAutomaton.printTransitions();
         return finiteAutomaton;
-    };
+    }
 }

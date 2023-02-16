@@ -1,9 +1,9 @@
 package automaton;
 
 public class Transition {
-    private char currentState;
-    private char transitionLabel;
-    private char nextState;
+    private final char currentState;
+    private final char transitionLabel;
+    private final char nextState;
     public Transition(char currentState, char transitionLabel, char nextState){
         this.currentState = currentState;
         this.transitionLabel = transitionLabel;
