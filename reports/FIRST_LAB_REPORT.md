@@ -118,9 +118,9 @@ Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAu
 
 1) *Formal Languages and Finite Automata* [online]. [Accessed: 11.02.2023].
 Available: https://else.fcim.utm.md/pluginfile.php/110458/mod_resource/content/0/LFPC_Guide.pdf
-2)Homenda Pedrycz *Automata Theory and Formal Languages* [pdf]. [Accessed: 11.02.2023].
+2) Homenda Pedrycz *Automata Theory and Formal Languages* [pdf]. [Accessed: 11.02.2023].
 Available:
-[Homenda_Pedrycz_-_Automata_Theory_and_Formal_Languages_2022_Homenda_Pedrycz_9783110752274_2022_-_libgen.li.pdf](https://github.com/MariaProcopii/LFAF/files/10757452/Homenda_Pedrycz_-_Automata_Theory_and_Formal_Languages_2022_Homenda_Pedrycz_9783110752274_2022_-_libgen.li.pdf)
+[Homenda Pedrycz Automata Theory.pdf](https://github.com/MariaProcopii/LFAF/files/10757468/Homenda.Pedrycz.Automata.Theory.pdf)
 3) *Introduction to Finite Automaton* [online]. [Accessed: 13.02.2023].
 Available: https://www.geeksforgeeks.org/introduction-of-finite-automata/
 4) *Plantuml State Diagram* [online]. [Accessed: 14.02.2023].
