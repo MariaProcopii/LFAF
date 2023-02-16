@@ -7,6 +7,7 @@
 
 ## Theory
 A `language` is a set of strings form some finite, nonempty set of symbols.
+It is specified by some rules. Is is designed to be used in situations where a natural language can not be utilized.
 `Grammar` is formed from a group of non-terminal symbols, terminal symbols, start symbol and a set of productions (rules).
 
 Grammar can be classified if three types:
