@@ -11,13 +11,13 @@ public class Main {
         Grammar grammar = new Grammar(vn, vt, prodKey, prodVal, startSymbol);
 
 
-        System.out.println(grammar.generateWords(5)); // set of generated words
+        System.out.println(grammar.generateWords(5)); // set of generated strings
 
         FiniteAutomaton finiteAutomaton = grammar.toFiniteAutomaton();  // converting an object of type Grammar
                                                                        // to one of type Finite Automaton
 
 //        finiteAutomaton.printTransitions(); // visualize formed transitions set from provided grammar
-        finiteAutomaton.wordIsValid("abababaaaac");  // check the word (function also return a boolean)
+        finiteAutomaton.wordIsValid("abababaaaac");  // check the string (function also return a boolean)
         finiteAutomaton.wordIsValid("abababaaaa");
     }
 }

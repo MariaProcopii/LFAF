@@ -39,7 +39,7 @@ public class Grammar {
         ArrayList<String> result = new ArrayList<>();
         Random random = new Random();
 
-        System.out.println("\nProcess of words formation:");
+        System.out.println("\nProcess of strings formation:");
         while(result.size()  < wordsAmount){
             Stack<Character> stack = new Stack<>();
             StringBuilder stringBuilder = new StringBuilder();
@@ -66,7 +66,7 @@ public class Grammar {
             result.add(stringBuilder.toString());
             System.out.print("[" + stringBuilder + "]");
         }
-        System.out.print("\n\n" + "Final set of words: ");
+        System.out.print("\n\n" + "Final set of strings: ");
         return result;
     }
 
