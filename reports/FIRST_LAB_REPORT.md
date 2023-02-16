@@ -64,8 +64,12 @@ First of all I started by implementing the `Grammar` class wich contains a set o
 For generating the words is used the `generateWords()` method. It takes the amount of words we want to create and returns the list of strings created. Also it will print how the strings was created:
 ```
 Process of words formation:
+
+S ---> aB ---> abB ---> abaC ---> ababB ---> ababbB ---> ababbbB ---> ababbbaC ---> ababbbaaS ---> ababbbaaaB ---> ababbbaaaaC ---> ababbbaaaac ---> [ababbbaaaac]
+S ---> aB ---> abB ---> abbB ---> abbaC ---> abbabB ---> abbabbB ---> abbabbaC ---> abbabbac ---> [abbabbac]
+S ---> aB ---> aaC ---> aabB ---> aabaC ---> aababB ---> aababaC ---> aababaaS ---> aababaaaB ---> aababaaaaC ---> aababaaaabB ---> aababaaaabaC ---> aababaaaabac ---> [aababaaaabac]
+S ---> aB ---> abB ---> abbB ---> abbbB ---> abbbaC ---> abbbaaS ---> abbbaaaB ---> abbbaaabB ---> abbbaaabbB ---> abbbaaabbbB ---> abbbaaabbbaC ---> abbbaaabbbaaS ---> abbbaaabbbaaaB ---> abbbaaabbbaaaaC ---> abbbaaabbbaaaabB ---> abbbaaabbbaaaabaC ---> abbbaaabbbaaaabac ---> [abbbaaabbbaaaabac]
 S ---> aB ---> aaC ---> aac ---> [aac]
-...
 
 Final set of words: [ababbbaaaac, abbabbac, aababaaaabac, abbbaaabbbaaaabac, aac]
 ```
