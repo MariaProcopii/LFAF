@@ -21,6 +21,13 @@ Finite automata is a model which reads the string, one symbol per time and we ne
 It will accept of reject the input string.
 It has a finite number of states.
 
+Finite automaton is formed of 5 tuples:
+* **Q** is a set of states
+* **Σ** is an input alphabet
+* **δ** is a set of transitions 
+* **q0** is the initial state
+* **F** is a set of final states 
+
 
 ## Objectives:
 
@@ -47,31 +54,128 @@ It has a finite number of states.
 
 ## Implementation description
 
-* About 2-3 sentences to explain each piece of the implementation.
-
-
-* Code snippets from your files.
+First of all I started by implementing the `Grammar` class wich contains a set of terminal, non-terminal variables, hashMap of productions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap wich contains left side of production ( the key ) and the arraylist of possible right side ellements ( the value ). It checkes if the passed ellement form the list exists in hashMap and add it by key. If it is not pressent, it adds it and make a new arraylist. 
 
 ```
-public static void main() 
-{
+ public void genProductions(char[] prodKey, String[] prodVal) {
+     for(int i = 0; i < prodKey.length; i++){
 
-}
+         if(!productions.containsKey(prodKey[i])){
+             productions.put(prodKey[i], new ArrayList<>());
+         }
+         productions.get(prodKey[i]).add(prodVal[i]);
+         }
+ }
 ```
 
-* If needed, screenshots.
+For generating the words is used the `generateWords()` method. It takes the amount of words we want to create and returns the list of strings created. Also it will print how the strings was created:
+```
+Process of words formation:
+
+S ---> aB ---> abB ---> abaC ---> ababB ---> ababbB ---> ababbbB ---> ababbbaC ---> ababbbaaS ---> ababbbaaaB ---> ababbbaaaaC ---> ababbbaaaac ---> [ababbbaaaac]
+S ---> aB ---> abB ---> abbB ---> abbaC ---> abbabB ---> abbabbB ---> abbabbaC ---> abbabbac ---> [abbabbac]
+S ---> aB ---> aaC ---> aabB ---> aabaC ---> aababB ---> aababaC ---> aababaaS ---> aababaaaB ---> aababaaaaC ---> aababaaaabB ---> aababaaaabaC ---> aababaaaabac ---> [aababaaaabac]
+S ---> aB ---> abB ---> abbB ---> abbbB ---> abbbaC ---> abbbaaS ---> abbbaaaB ---> abbbaaabB ---> abbbaaabbB ---> abbbaaabbbB ---> abbbaaabbbaC ---> abbbaaabbbaaS ---> abbbaaabbbaaaB ---> abbbaaabbbaaaaC ---> abbbaaabbbaaaabB ---> abbbaaabbbaaaabaC ---> abbbaaabbbaaaabac ---> [abbbaaabbbaaaabac]
+S ---> aB ---> aaC ---> aac ---> [aac]
+
+Final set of words: [ababbbaaaac, abbabbac, aababaaaabac, abbbaaabbbaaaabac, aac]
+```
+This method contains an arraylist with results, an object of random class.
+While the set of results does not contain the amount of strings we need, I create a stack abject in wich plase the start symbol. Next while the stack is not empty ( the string formation is not ready ), I take the symbor from stack, using pop(), and verify if it is a terminal of a non-terminal symbol. If it is not, I use it to get the arraylist from production HashMap ( using it as a key ), randomly select a variant from possible right side ellements and add this symbols in stack in reverse order. If it is terminal,, I just add it in stringbuilder object ( I used the StringBuilder because I need to modify the string and dont want to make a new String in the heap memory ).
+```
+ if(nonTerminalVariables.contains(term)){
+     ArrayList<String> tempArrayRes = productions.get(term);
+     String tempRes = tempArrayRes.get(random.nextInt(tempArrayRes.size()));
+     System.out.print(stringBuilder + tempRes + " ---> ");
+
+     for(int i = tempRes.length() - 1; i >= 0; i--){
+         stack.add(tempRes.charAt(i));
+     }
+ }
+ else{
+     stringBuilder.append(term);
+ }
+ ```
+ 
+Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed decription of this method will be presented later.
+
+`Transition` object is used to store the info about transitions (currentState, transitionLabel, nextState ). Also I override the `toString()` method ( for printing the transitions list ). For examble using the production list of my variant I need to obtain the following transitions set:
+```
+δ (S, a) = {B}
+δ (B, b) = {B}
+δ (B, a) = {C}
+δ (C, b) = {B}
+δ (C, a) = {S}
+δ (C, c) = {F}
+```
+![photo_2023-02-17_12-56-09](https://user-images.githubusercontent.com/77497709/219628406-a556aa06-cf79-48ca-b030-0d4243692d75.jpg)
+
+Another production list can be used if needed.
+Obtained arrayList of transition can be visualized using the `printTransition()` method from FiniteAutomaton class.
+
+`FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side ellement length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side ellement as transitionLabel,  and finalState of automaton as nextState. If the ellement lenght is 2, nextState will be  the second character of ellement.
+
+```
+ if(element.length() < 2){
+     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
+                                    finiteAutomaton.getFinalState()));
+ }
+ else{
+     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
+                                    element.charAt(1)));
+ }
+```
+
+`wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. It goes through the input string, character by character and, using the arrayList of `Transition` object, checks if exist a transition with the same current state ( first `currentState` is `initialState` of FiniteAutomaton ) and the same tansition label ( the analized character ). Also it needs to check if the `finalState` was reached or not. If exist such transition, it takes the currentState as next state of found transition, mark the valid field as true and repeat the process for the next character. The string is considered a valid one in the case when after it goes through each character, the `valid` field is marked as true.
+```
+ for(int i = 0; i < word.length(); i++){
+     for(Transition tr : transitions){
+         if(tr.getCurrentState() == currentState &&
+            tr.getTransitionLabel() == word.charAt(i) &&
+             currentState != finalState){
+
+             currentState = tr.getNextState();
+             valid = true;
+             break;
+         }
+         else{
+             valid = false;
+         }
+     }
+ }
+ ```
 
 
-## Conclusions / Screenshots / Results
+## Conclusions
+In the end of this laboratory work I would like to mention that after completing this lab assignment, I researched what defines a language and what characteristics a language must possess to be regarded as formal. I was able to make an implementation of Grammar and Finite Automaton classes which include the necessary methods to produce acceptable strings, convert an object of type Grammar to one of type Finite Automaton, and determine if an input string can be obtained via the state transition.
 
+After running the program we have the following results:
+```
+Process of strings formation:
+
+S ---> aB ---> abB ---> abbB ---> abbbB ---> abbbbB ---> abbbbaC ---> abbbbabB ---> abbbbabaC ---> abbbbabac ---> [abbbbabac]
+S ---> aB ---> aaC ---> aac ---> [aac]
+S ---> aB ---> aaC ---> aaaS ---> aaaaB ---> aaaabB ---> aaaabaC ---> aaaababB ---> aaaababaC ---> aaaabababB ---> aaaabababbB ---> aaaabababbbB ---> aaaabababbbaC ---> aaaabababbbaaS ---> aaaabababbbaaaB ---> aaaabababbbaaaaC ---> aaaabababbbaaaaaS ---> aaaabababbbaaaaaaB ---> aaaabababbbaaaaaabB ---> aaaabababbbaaaaaabaC ---> aaaabababbbaaaaaabac ---> [aaaabababbbaaaaaabac]
+S ---> aB ---> abB ---> abaC ---> ababB ---> ababbB ---> ababbbB ---> ababbbaC ---> ababbbac ---> [ababbbac]
+S ---> aB ---> abB ---> abaC ---> abaaS ---> abaaaB ---> abaaaaC ---> abaaaac ---> [abaaaac]
+
+Final set of strings: [abbbbabac, aac, aaaabababbbaaaaaabac, ababbbac, abaaaac]
+
+Word [aac] is valid
+
+Word [abababaaaacac] is not valid
+```
 
 ## References
 
 1) *Formal Languages and Finite Automata* [online]. [Accessed: 11.02.2023].
 Available: https://else.fcim.utm.md/pluginfile.php/110458/mod_resource/content/0/LFPC_Guide.pdf
-2) *Introduction to Finite Automaton* [online]. [Accessed: 13.02.2023].
+2) Homenda Pedrycz *Automata Theory and Formal Languages* [pdf]. [Accessed: 11.02.2023].
+Available:
+[Homenda Pedrycz Automata Theory.pdf](https://github.com/MariaProcopii/LFAF/files/10757468/Homenda.Pedrycz.Automata.Theory.pdf)
+3) *Introduction to Finite Automaton* [online]. [Accessed: 13.02.2023].
 Available: https://www.geeksforgeeks.org/introduction-of-finite-automata/
-3) *Plantuml State Diagram* [online]. [Accessed: 14.02.2023].
+4) *Plantuml State Diagram* [online]. [Accessed: 14.02.2023].
 Available: https://plantuml.com/state-diagram
 
 
