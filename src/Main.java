@@ -17,7 +17,7 @@ public class Main {
                                                                        // to one of type Finite Automaton
 
 //        finiteAutomaton.printTransitions(); // visualize formed transitions set from provided grammar
-        finiteAutomaton.wordIsValid("aac");  // check the string (function also return a boolean)
-        finiteAutomaton.wordIsValid("abababaaaacac");
+        finiteAutomaton.wordIsValid("abababaaaac");  // check the string (function also return a boolean)
+        finiteAutomaton.wordIsValid("abababaaaa");
     }
 }

@@ -7,7 +7,7 @@
 
 ## Theory
 A `language` is a set of strings form some finite, nonempty set of symbols.
-It is specified by some rules. Is is designed to be used in situations where a natural language can not be utilized.
+It is specified by some rules. It is designed to be used in situations where a natural language can not be utilized.
 `Grammar` is formed from a group of non-terminal symbols, terminal symbols, start symbol and a set of productions (rules).
 
 Grammar can be classified if three types:
@@ -17,7 +17,7 @@ Grammar can be classified if three types:
 - Type 2 Context-Free Grammar
 - Type 3 Regular Grammar
 
-Finite automata is a model which reads the string, one symbol per time and we need it to recognize the pattern.
+Finite automata is a model which reads the string, one symbol per time, and we need it to recognize the pattern.
 It will accept of reject the input string.
 It has a finite number of states.
 
@@ -35,7 +35,7 @@ Finite automaton is formed of 5 tuples:
 
 2. Provide the initial setup for the evolving project that you will work on during this semester. I said project because usually at lab works, I encourage/impose students to treat all the labs like stages of development of a whole project. Basically you need to do the following:
 
-   a. Create a local && remote repository of a VCS hosting service (let us all use Github to avoid unnecessary headaches);
+   a. Create a local && remote repository of a VCS hosting service (let us all use GitHub to avoid unnecessary headaches);
 
    b. Choose a programming language, and my suggestion would be to choose one that supports all the main paradigms;
 
@@ -54,7 +54,7 @@ Finite automaton is formed of 5 tuples:
 
 ## Implementation description
 
-First of all I started by implementing the `Grammar` class wich contains a set of terminal, non-terminal variables, hashMap of productions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap wich contains left side of production ( the key ) and the arraylist of possible right side ellements ( the value ). It checkes if the passed ellement form the list exists in hashMap and add it by key. If it is not pressent, it adds it and make a new arraylist. 
+First of all I started by implementing the `Grammar` class which contains a set of terminal, non-terminal variables, hashMap of productions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap which contains left side of production ( the key ) and the arraylist of possible right side elements ( the value ). It checks if the passed element form the list exists in hashMap and add it by key. If it is not present, it adds it and make a new arraylist. 
 
 ```
  public void genProductions(char[] prodKey, String[] prodVal) {
@@ -68,7 +68,7 @@ First of all I started by implementing the `Grammar` class wich contains a set o
  }
 ```
 
-For generating the words is used the `generateWords()` method. It takes the amount of words we want to create and returns the list of strings created. Also it will print how the strings was created:
+For generating the words is used the `generateWords()` method. It takes the amount of words we want to create and returns the list of strings created. Also, it will print how the strings was created:
 ```
 Process of words formation:
 
@@ -81,7 +81,7 @@ S ---> aB ---> aaC ---> aac ---> [aac]
 Final set of words: [ababbbaaaac, abbabbac, aababaaaabac, abbbaaabbbaaaabac, aac]
 ```
 This method contains an arraylist with results, an object of random class.
-While the set of results does not contain the amount of strings we need, I create a stack abject in wich plase the start symbol. Next while the stack is not empty ( the string formation is not ready ), I take the symbor from stack, using pop(), and verify if it is a terminal of a non-terminal symbol. If it is not, I use it to get the arraylist from production HashMap ( using it as a key ), randomly select a variant from possible right side ellements and add this symbols in stack in reverse order. If it is terminal,, I just add it in stringbuilder object ( I used the StringBuilder because I need to modify the string and dont want to make a new String in the heap memory ).
+While the set of results does not contain the amount of strings we need, I create a stack object in which place the start symbol. Next while the stack is not empty ( the string formation is not ready ), I take the symbol from stack, using pop(), and verify if it is a terminal of a non-terminal symbol. If it is not, I use it to get the arraylist from production HashMap ( using it as a key ), randomly select a variant from possible right side elements and add this symbols in stack in reverse order. If it is terminal, I just add it in stringBuilder object ( I used the StringBuilder because I need to modify the string and don't want to make a new String in the heap memory ).
 ```
  if(nonTerminalVariables.contains(term)){
      ArrayList<String> tempArrayRes = productions.get(term);
@@ -97,9 +97,9 @@ While the set of results does not contain the amount of strings we need, I creat
  }
  ```
  
-Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed decription of this method will be presented later.
+Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed description of this method will be presented later.
 
-`Transition` object is used to store the info about transitions (currentState, transitionLabel, nextState ). Also I override the `toString()` method ( for printing the transitions list ). For examble using the production list of my variant I need to obtain the following transitions set:
+`Transition` object is used to store the info about transitions (currentState, transitionLabel, nextState ). Also, I override the `toString()` method ( for printing the transitions list ). For example using the production list of my variant I need to obtain the following transitions set:
 ```
 δ (S, a) = {B}
 δ (B, b) = {B}
@@ -113,7 +113,7 @@ Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAu
 Another production list can be used if needed.
 Obtained arrayList of transition can be visualized using the `printTransition()` method from FiniteAutomaton class.
 
-`FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side ellement length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side ellement as transitionLabel,  and finalState of automaton as nextState. If the ellement lenght is 2, nextState will be  the second character of ellement.
+`FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side element length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side element as transitionLabel,  and finalState of automaton as nextState. If the element length is 2, nextState will be  the second character of element.
 
 ```
  if(element.length() < 2){
@@ -126,13 +126,12 @@ Obtained arrayList of transition can be visualized using the `printTransition()`
  }
 ```
 
-`wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. It goes through the input string, character by character and, using the arrayList of `Transition` object, checks if exist a transition with the same current state ( first `currentState` is `initialState` of FiniteAutomaton ) and the same tansition label ( the analized character ). Also it needs to check if the `finalState` was reached or not. If exist such transition, it takes the currentState as next state of found transition, mark the valid field as true and repeat the process for the next character. The string is considered a valid one in the case when after it goes through each character, the `valid` field is marked as true.
+`wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. It goes through the input string, character by character and, using the arrayList of `Transition` object, checks if exist a transition with the same current state ( first `currentState` is `initialState` of FiniteAutomaton ) and the same transition label ( the analyzed character ). If exist such transition, it takes the currentState as next state of found transition, mark the valid field as true and repeat the process for the next character. The string is considered a valid one in the case when after it goes through each character, the `valid` field is marked as true and the `currentState` matches `finalState` of automaton.
 ```
  for(int i = 0; i < word.length(); i++){
      for(Transition tr : transitions){
          if(tr.getCurrentState() == currentState &&
-            tr.getTransitionLabel() == word.charAt(i) &&
-             currentState != finalState){
+            tr.getTransitionLabel() == word.charAt(i)){
 
              currentState = tr.getNextState();
              valid = true;
@@ -153,17 +152,17 @@ After running the program we have the following results:
 ```
 Process of strings formation:
 
-S ---> aB ---> abB ---> abbB ---> abbbB ---> abbbbB ---> abbbbaC ---> abbbbabB ---> abbbbabaC ---> abbbbabac ---> [abbbbabac]
+S ---> aB ---> aaC ---> aabB ---> aabaC ---> aabaaS ---> aabaaaB ---> aabaaaaC ---> aabaaaac ---> [aabaaaac]
+S ---> aB ---> aaC ---> aabB ---> aabaC ---> aababB ---> aababbB ---> aababbbB ---> aababbbaC ---> aababbbabB ---> aababbbabbB ---> aababbbabbaC ---> aababbbabbabB ---> aababbbabbabaC ---> aababbbabbabaaS ---> aababbbabbabaaaB ---> aababbbabbabaaaaC ---> aababbbabbabaaaabB ---> aababbbabbabaaaabbB ---> aababbbabbabaaaabbbB ---> aababbbabbabaaaabbbaC ---> aababbbabbabaaaabbbabB ---> aababbbabbabaaaabbbabaC ---> aababbbabbabaaaabbbababB ---> aababbbabbabaaaabbbababbB ---> aababbbabbabaaaabbbababbbB ---> aababbbabbabaaaabbbababbbaC ---> aababbbabbabaaaabbbababbbac ---> [aababbbabbabaaaabbbababbbac]
 S ---> aB ---> aaC ---> aac ---> [aac]
-S ---> aB ---> aaC ---> aaaS ---> aaaaB ---> aaaabB ---> aaaabaC ---> aaaababB ---> aaaababaC ---> aaaabababB ---> aaaabababbB ---> aaaabababbbB ---> aaaabababbbaC ---> aaaabababbbaaS ---> aaaabababbbaaaB ---> aaaabababbbaaaaC ---> aaaabababbbaaaaaS ---> aaaabababbbaaaaaaB ---> aaaabababbbaaaaaabB ---> aaaabababbbaaaaaabaC ---> aaaabababbbaaaaaabac ---> [aaaabababbbaaaaaabac]
-S ---> aB ---> abB ---> abaC ---> ababB ---> ababbB ---> ababbbB ---> ababbbaC ---> ababbbac ---> [ababbbac]
-S ---> aB ---> abB ---> abaC ---> abaaS ---> abaaaB ---> abaaaaC ---> abaaaac ---> [abaaaac]
+S ---> aB ---> aaC ---> aac ---> [aac]
+S ---> aB ---> aaC ---> aabB ---> aabaC ---> aababB ---> aababaC ---> aabababB ---> aabababaC ---> aabababaaS ---> aabababaaaB ---> aabababaaaaC ---> aabababaaaabB ---> aabababaaaabaC ---> aabababaaaabac ---> [aabababaaaabac]
 
-Final set of strings: [abbbbabac, aac, aaaabababbbaaaaaabac, ababbbac, abaaaac]
+Final set of strings: [aabaaaac, aababbbabbabaaaabbbababbbac, aac, aac, aabababaaaabac]
 
-Word [aac] is valid
+Word [abababaaaac] is valid
 
-Word [abababaaaacac] is not valid
+Word [abababaaaa] is not valid
 ```
 
 ## References

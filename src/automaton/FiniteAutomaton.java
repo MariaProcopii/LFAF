@@ -47,8 +47,7 @@ public class FiniteAutomaton
     for(int i = 0; i < word.length(); i++){
         for(Transition tr : transitions){
             if(tr.getCurrentState() == currentState &&
-               tr.getTransitionLabel() == word.charAt(i) &&
-                currentState != finalState){
+               tr.getTransitionLabel() == word.charAt(i)){
 
                 currentState = tr.getNextState();
                 valid = true;
@@ -59,7 +58,7 @@ public class FiniteAutomaton
             }
         }
     }
-    if(valid){
+    if(valid && currentState == finalState){
         System.out.println("\nWord ["+ word +"] is valid");
     }
     else{
