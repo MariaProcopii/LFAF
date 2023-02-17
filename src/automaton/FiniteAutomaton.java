@@ -19,7 +19,7 @@ public class FiniteAutomaton
 
         transitions = new ArrayList<>();
         possibleStates = new HashSet<>(vn);
-        possibleStates.add('F');
+        possibleStates.add(finalState);
         alphabet = new HashSet<>(vt);
         this.initialState = initialState;
         this.finalState = finalState;
@@ -47,15 +47,19 @@ public class FiniteAutomaton
     for(int i = 0; i < word.length(); i++){
         for(Transition tr : transitions){
             if(tr.getCurrentState() == currentState &&
-               tr.getTransitionLabel() == word.charAt(i)){
+               tr.getTransitionLabel() == word.charAt(i) &&
+                currentState != finalState){
 
                 currentState = tr.getNextState();
+                valid = true;
                 break;
+            }
+            else{
+                valid = false;
             }
         }
     }
-    if(currentState == finalState){
-        valid = true;
+    if(valid){
         System.out.println("\nWord ["+ word +"] is valid");
     }
     else{
