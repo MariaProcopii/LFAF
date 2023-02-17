@@ -21,6 +21,13 @@ Finite automata is a model which reads the string, one symbol per time and we ne
 It will accept of reject the input string.
 It has a finite number of states.
 
+Finite automaton is formed of 5 tuples:
+* **Q** is a set of states
+* **Σ** is an input alphabet
+* **δ** is a set of transitions 
+* **q0** is the initial state
+* **F** is a set of final states 
+
 
 ## Objectives:
 
@@ -90,9 +97,21 @@ While the set of results does not contain the amount of strings we need, I creat
  }
  ```
  
-Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed decription of this method will be described later.
+Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed decription of this method will be presented later.
 
-`Transition` object is used to stare the info about transitions (currentState, transitionLabel, nextState ). Also I override the `toString()` method for printing the transitions list.
+`Transition` object is used to store the info about transitions (currentState, transitionLabel, nextState ). Also I override the `toString()` method ( for printing the transitions list ). For examble using the production list of my variant I need to obtain the following transitions set:
+```
+δ (S, a) = {B}
+δ (B, b) = {B}
+δ (B, a) = {C}
+δ (C, b) = {B}
+δ (C, a) = {S}
+δ (C, c) = {F}
+```
+![photo_2023-02-17_12-56-09](https://user-images.githubusercontent.com/77497709/219628406-a556aa06-cf79-48ca-b030-0d4243692d75.jpg)
+
+Another production list can be used if needed.
+Obtained arrayList of transition can be visualized using the `printTransition()` method from FiniteAutomaton class.
 
 `FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side ellement length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side ellement as transitionLabel,  and finalState of automaton as nextState. If the ellement lenght is 2, nextState will be  the second character of ellement.
 
@@ -107,12 +126,45 @@ Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAu
  }
 ```
 
-`wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. 
+`wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. It goes through the input string, character by character and, using the arrayList of `Transition` object, checks if exist a transition with the same current state ( first `currentState` is `initialState` of FiniteAutomaton ) and the same tansition label ( the analized character ). Also it needs to check if the `finalState` was reached or not. If exist such transition, it takes the currentState as next state of found transition, mark the valid field as true and repeat the process for the next character. The string is considered a valid one in the case when after it goes through each character, the `valid` field is marked as true.
+```
+ for(int i = 0; i < word.length(); i++){
+     for(Transition tr : transitions){
+         if(tr.getCurrentState() == currentState &&
+            tr.getTransitionLabel() == word.charAt(i) &&
+             currentState != finalState){
+
+             currentState = tr.getNextState();
+             valid = true;
+             break;
+         }
+         else{
+             valid = false;
+         }
+     }
+ }
+ ```
 
 
+## Conclusions
+In the end of this laboratory work I would like to mention that after completing this lab assignment, I researched what defines a language and what characteristics a language must possess to be regarded as formal. I was able to make an implementation of Grammar and Finite Automaton classes which include the necessary methods to produce acceptable strings, convert an object of type Grammar to one of type Finite Automaton, and determine if an input string can be obtained via the state transition.
 
-## Conclusions / Screenshots / Results
+After running the program we have the following results:
+```
+Process of strings formation:
 
+S ---> aB ---> abB ---> abbB ---> abbbB ---> abbbbB ---> abbbbaC ---> abbbbabB ---> abbbbabaC ---> abbbbabac ---> [abbbbabac]
+S ---> aB ---> aaC ---> aac ---> [aac]
+S ---> aB ---> aaC ---> aaaS ---> aaaaB ---> aaaabB ---> aaaabaC ---> aaaababB ---> aaaababaC ---> aaaabababB ---> aaaabababbB ---> aaaabababbbB ---> aaaabababbbaC ---> aaaabababbbaaS ---> aaaabababbbaaaB ---> aaaabababbbaaaaC ---> aaaabababbbaaaaaS ---> aaaabababbbaaaaaaB ---> aaaabababbbaaaaaabB ---> aaaabababbbaaaaaabaC ---> aaaabababbbaaaaaabac ---> [aaaabababbbaaaaaabac]
+S ---> aB ---> abB ---> abaC ---> ababB ---> ababbB ---> ababbbB ---> ababbbaC ---> ababbbac ---> [ababbbac]
+S ---> aB ---> abB ---> abaC ---> abaaS ---> abaaaB ---> abaaaaC ---> abaaaac ---> [abaaaac]
+
+Final set of strings: [abbbbabac, aac, aaaabababbbaaaaaabac, ababbbac, abaaaac]
+
+Word [aac] is valid
+
+Word [abababaaaacac] is not valid
+```
 
 ## References
 
