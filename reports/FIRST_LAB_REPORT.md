@@ -99,7 +99,7 @@ While the set of results does not contain the amount of strings we need, I creat
  
 Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed description of this method will be presented later.
 
-`Transition` object is used to store the info about transitions (currentState, transitionLabel, nextState ). Also, I override the `toString()` method ( for printing the transitions list ). For example using the production list of my variant I need to obtain the following transitions set:
+`Transition` object is used to store the info about transitions (currentState, transitionLabel, nextState ). Also, I override the `toString()` method ( for printing the transitions list ). For example using the production list of my variant (23) I need to obtain the following transitions set:
 ```
 δ (S, a) = {B}
 δ (B, b) = {B}
