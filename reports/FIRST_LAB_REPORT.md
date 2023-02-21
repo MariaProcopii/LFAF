@@ -56,7 +56,7 @@ Finite automaton is formed of 5 tuples:
 
 First of all I started by implementing the `Grammar` class which contains a set of terminal, non-terminal variables, hashMap of productions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap which contains left side of production ( the key ) and the arraylist of possible right side elements ( the value ). It checks if the passed element form the list exists in hashMap and add it by key. If it is not present, it adds it and make a new arraylist. 
 
-```
+```java
  public void genProductions(char[] prodKey, String[] prodVal) {
      for(int i = 0; i < prodKey.length; i++){
 
