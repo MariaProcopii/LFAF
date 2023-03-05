@@ -128,6 +128,7 @@ Obtained arrayList of transition can be visualized using the `printTransition()`
 
 `wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. It goes through the input string, character by character and, using the arrayList of `Transition` object, checks if exist a transition with the same current state ( first `currentState` is `initialState` of FiniteAutomaton ) and the same transition label ( the analyzed character ). If exist such transition, it takes the currentState as next state of found transition, mark the valid field as true and repeat the process for the next character. The string is considered a valid one in the case when after it goes through each character, the `valid` field is marked as true and the `currentState` matches `finalState` of automaton.
 ```java
+ myBreakLabel:
  for(int i = 0; i < word.length(); i++){
      for(Transition tr : transitions){
          if(tr.getCurrentState() == currentState &&
@@ -139,6 +140,9 @@ Obtained arrayList of transition can be visualized using the `printTransition()`
          }
          else{
              valid = false;
+             if(count == transitions.size()){
+                    break myBreakLabel;
+             }   
          }
      }
  }
