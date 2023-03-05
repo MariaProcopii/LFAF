@@ -8,14 +8,14 @@
 ## Theory
 A `language` is a set of strings form some finite, nonempty set of symbols.
 It is specified by some rules. It is designed to be used in situations where a natural language can not be utilized.
-`Grammar` is formed from a group of non-terminal symbols, terminal symbols, start symbol and a set of productions (rules).
+`grammar.Grammar` is formed from a group of non-terminal symbols, terminal symbols, start symbol and a set of productions (rules).
 
-Grammar can be classified if three types:
+grammar.Grammar can be classified if three types:
 
-- Type 0 Recursively Enumerable Grammar
+- Type 0 Recursively Enumerable grammar.Grammar
 - Type 1 Context-Sensitive Grammars
-- Type 2 Context-Free Grammar
-- Type 3 Regular Grammar
+- Type 2 Context-Free grammar.Grammar
+- Type 3 Regular grammar.Grammar
 
 Finite automata is a model which reads the string, one symbol per time, and we need it to recognize the pattern.
 It will accept of reject the input string.
@@ -47,14 +47,14 @@ Finite automaton is formed of 5 tuples:
 
    b. Add one function that would generate 5 valid strings from the language expressed by your given grammar;
 
-   c. Implement some functionality that would convert and object of type Grammar to one of type Finite Automaton;
+   c. Implement some functionality that would convert and object of type grammar.Grammar to one of type Finite Automaton;
 
    d. For the Finite Automaton, please add a method that checks if an input string can be obtained via the state transition from it;
 
 
 ## Implementation description
 
-First of all I started by implementing the `Grammar` class which contains a set of terminal, non-terminal variables, hashMap of productions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap which contains left side of production ( the key ) and the arraylist of possible right side elements ( the value ). It checks if the passed element form the list exists in hashMap and add it by key. If it is not present, it adds it and make a new arraylist. 
+First of all I started by implementing the `grammar.Grammar` class which contains a set of terminal, non-terminal variables, hashMap of productions and start symbol. To make an instance of the grammar class you should provide a char list of mentioned above elements. Methods `genNonTerminalVariables()` and `genTerminalVariables()` just take the provided char list and add it in a hashSet. Method `genProductions()` makes a hashMap which contains left side of production ( the key ) and the arraylist of possible right side elements ( the value ). It checks if the passed element form the list exists in hashMap and add it by key. If it is not present, it adds it and make a new arraylist. 
 
 ```java
  public void genProductions(char[] prodKey, String[] prodVal) {
@@ -97,7 +97,7 @@ While the set of results does not contain the amount of strings we need, I creat
  }
  ```
  
-Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAutomaton`. Detailed description of this method will be presented later.
+Method `toFiniteAutomaton()` uses fields of `grammar.Grammar` object to make a `FiniteAutomaton`. Detailed description of this method will be presented later.
 
 `Transition` object is used to store the info about transitions (currentState, transitionLabel, nextState ). Also, I override the `toString()` method ( for printing the transitions list ). For example using the production list of my variant (23) I need to obtain the following transitions set:
 ```
@@ -113,7 +113,7 @@ Method `toFiniteAutomaton()` uses fields of `Grammar` object to make a `FiniteAu
 Another production list can be used if needed.
 Obtained arrayList of transition can be visualized using the `printTransition()` method from FiniteAutomaton class.
 
-`FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side element length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side element as transitionLabel,  and finalState of automaton as nextState. If the element length is 2, nextState will be  the second character of element.
+`FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from grammar.Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side element length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side element as transitionLabel,  and finalState of automaton as nextState. If the element length is 2, nextState will be  the second character of element.
 
 ```java
  if(element.length() < 2){
@@ -146,7 +146,7 @@ Obtained arrayList of transition can be visualized using the `printTransition()`
 
 
 ## Conclusions
-In the end of this laboratory work I would like to mention that after completing this lab assignment, I researched what defines a language and what characteristics a language must possess to be regarded as formal. I was able to make an implementation of Grammar and Finite Automaton classes which include the necessary methods to produce acceptable strings, convert an object of type Grammar to one of type Finite Automaton, and determine if an input string can be obtained via the state transition.
+In the end of this laboratory work I would like to mention that after completing this lab assignment, I researched what defines a language and what characteristics a language must possess to be regarded as formal. I was able to make an implementation of grammar.Grammar and Finite Automaton classes which include the necessary methods to produce acceptable strings, convert an object of type grammar.Grammar to one of type Finite Automaton, and determine if an input string can be obtained via the state transition.
 
 After running the program we have the following results:
 ```

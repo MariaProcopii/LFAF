@@ -1,6 +1,10 @@
 package automaton;
 
+import grammar.*;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 public class FiniteAutomaton
@@ -27,6 +31,9 @@ public class FiniteAutomaton
 
     public void setTransitions(Transition transition) {
         transitions.add(transition);
+    }
+    public void setTransition(String currentState, String transitionLabel, String nextState) {
+        transitions.add(new Transition(currentState, transitionLabel, nextState));
     }
 
     public void printTransitions(){
@@ -63,12 +70,29 @@ public class FiniteAutomaton
             }
         }
     }
-    if(valid && currentState == finalState){
+    if(valid && currentState.equals(finalState)){
         System.out.println("\nWord ["+ word +"] is valid");
     }
     else{
         System.out.println("\nWord ["+ word +"] is not valid");
     }
     return valid;
+    }
+
+    public Grammar toGrammar(){
+
+        ArrayList<String> prodKey = new ArrayList<>();
+        ArrayList<String> prodVal = new ArrayList<>();
+        for(Transition tr: transitions){
+            prodKey.add(tr.getCurrentState());
+            prodVal.add(tr.getTransitionLabel() + tr.getNextState());
+        }
+
+        String[] pk = prodKey.toArray(new String[0]);
+        String[] pv = prodVal.toArray(new String[0]);
+        String[] ps = possibleStates.toArray(new String[0]);
+        String[] alph = alphabet.toArray(new String[0]);
+
+        return new Grammar(ps, alph, pk, pv, initialState);
     }
 }

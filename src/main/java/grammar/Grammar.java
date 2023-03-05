@@ -1,3 +1,5 @@
+package grammar;
+
 import java.util.*;
 import automaton.*;
 public class Grammar {
@@ -9,22 +11,12 @@ public class Grammar {
     public Grammar(String[] vn, String[] vt, String[] prodKey,
                    String[] prodVal, String startSymbol){
 
-        genNonTerminalVariables(vn);
-        genTerminalVariables(vt);
+        nonTerminalVariables.addAll(Arrays.asList(vn));
+        terminalVariables.addAll(Arrays.asList(vt));
         genProductions(prodKey, prodVal);
         this.startSymbol = startSymbol;
     }
 
-    public void genNonTerminalVariables(String[] vn){
-        for (String c : vn) {
-            nonTerminalVariables.add(c);
-        }
-    }
-    public void genTerminalVariables(String[] vt){
-        for (String c : vt) {
-            terminalVariables.add(c);
-        }
-    }
     public void genProductions(String[] prodKey, String[] prodVal) {
         for(int i = 0; i < prodKey.length; i++){
 
@@ -82,7 +74,7 @@ public class Grammar {
                 }
                 else{
                     finiteAutomaton.setTransitions(new Transition(key,String.valueOf(element.charAt(0)),
-                                                    String.valueOf(element.charAt(1))));
+                                                    element.substring(1)));
                 }
             }
         }
