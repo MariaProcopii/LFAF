@@ -5,16 +5,16 @@ import java.util.HashSet;
 
 public class FiniteAutomaton
 {
-    private HashSet<Character> possibleStates;
-    private HashSet<Character> alphabet;
+    private HashSet<String> possibleStates;
+    private HashSet<String> alphabet;
     private final ArrayList<Transition> transitions;
-    private final char initialState;
-    private final char finalState;
+    private final String initialState;
+    private final String finalState;
 
-    public FiniteAutomaton(HashSet<Character> vn,
-                           HashSet<Character> vt,
-                           char initialState,
-                           char finalState
+    public FiniteAutomaton(HashSet<String> vn,
+                           HashSet<String> vt,
+                           String initialState,
+                           String finalState
                            ){
 
         transitions = new ArrayList<>();
@@ -36,25 +36,30 @@ public class FiniteAutomaton
         }
     }
 
-    public char getFinalState() {
+    public String getFinalState() {
         return finalState;
     }
 
     public boolean wordIsValid(String word){
     boolean valid = false;
-    char currentState = initialState;
+    String currentState = initialState;
 
+    myBreakLabel:
     for(int i = 0; i < word.length(); i++){
+        int count = 1;
         for(Transition tr : transitions){
-            if(tr.getCurrentState() == currentState &&
-               tr.getTransitionLabel() == word.charAt(i)){
-
+            count++;
+            if(tr.getCurrentState().equals(currentState) &&
+                    tr.getTransitionLabel().equals(String.valueOf(word.charAt(i)))){
                 currentState = tr.getNextState();
                 valid = true;
                 break;
             }
             else{
                 valid = false;
+                if(count == transitions.size()){
+                    break myBreakLabel;
+                }
             }
         }
     }
