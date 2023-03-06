@@ -17,7 +17,7 @@ public class Main {
 
         System.out.println(grammar.generateWords(5)); // set of generated strings
 
-        FiniteAutomaton finiteAutomaton = grammar.toFiniteAutomaton();  // converting an object of type grammar.Grammar
+        FiniteAutomaton finiteAutomaton = grammar.toFiniteAutomaton("F");  // converting an object of type grammar.Grammar
                                                                        // to one of type Finite Automaton
 
 //        finiteAutomaton.printTransitions(); // visualize formed transitions set from provided grammar
@@ -39,6 +39,7 @@ public class Main {
         finiteAutomaton1.setTransition("q2", "b", "q2");
 
         Grammar grammar1 = finiteAutomaton1.toGrammar();
-
+        System.out.println(grammar1.getProductions());
+        grammar.grammarType();
     }
 }

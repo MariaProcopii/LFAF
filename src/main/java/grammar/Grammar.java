@@ -17,6 +17,10 @@ public class Grammar {
         this.startSymbol = startSymbol;
     }
 
+    public HashMap<String, ArrayList<String>> getProductions() {
+        return productions;
+    }
+
     public void genProductions(String[] prodKey, String[] prodVal) {
         for(int i = 0; i < prodKey.length; i++){
 
@@ -62,10 +66,10 @@ public class Grammar {
         return result;
     }
 
-    public FiniteAutomaton toFiniteAutomaton(){
+    public FiniteAutomaton toFiniteAutomaton(String finalState){
         FiniteAutomaton finiteAutomaton = new FiniteAutomaton(nonTerminalVariables,
                                               terminalVariables,
-                                              startSymbol, "F");
+                                              startSymbol, finalState);
         for(String key: productions.keySet()){
             for(String element: productions.get(key)){
                 if(element.length() < 2){
@@ -79,5 +83,73 @@ public class Grammar {
             }
         }
         return finiteAutomaton;
+    }
+
+    public void grammarType(){
+        boolean isRegular = true;
+        boolean isContextFree = true;
+
+        //Check if production is not of the form A -> BaB or q0 -> q01q0
+        for(String key : productions.keySet()){
+            if(key.length() > 1 && !nonTerminalVariables.contains(key)){
+                isContextFree = false;
+                isRegular = false;
+            }
+
+            else if(!nonTerminalVariables.contains(key)){
+                System.out.println("Wrong production");
+                System.exit(1);
+            }
+        }
+
+        for(ArrayList<String> list : productions.values()){
+            for(String element : list){
+
+                //check the chase when we have non-terminal of the form q1, q0 -> aq1
+                boolean isTwoSymbol = nonTerminalVariables.contains(element.substring(1));
+
+                // Check if production is of the form A -> aB or A -> a
+                if(element.length() > 2 && !isTwoSymbol){
+                    System.out.println(element.substring(1));
+                    isRegular = false;
+                }
+
+                else if(element.length() == 2 || isTwoSymbol){
+                    String first = String.valueOf(element.charAt(0));
+                    String second = element.substring(1);
+                    if(!terminalVariables.contains(first) || !nonTerminalVariables.contains(second)){
+                        isRegular = false;
+                    }
+//                    else if(!nonTerminalVariables.contains(second) && !nonTerminalVariables.contains(first)){
+//                        System.out.println("Wrong production");
+//                        System.exit(1);
+                }
+
+                else {
+                    String symbol = String.valueOf(element.charAt(0));
+
+                    // Check if production is of the form A -> a
+                    if(!terminalVariables.contains(symbol)){
+                        isRegular = false;
+
+                        // Check if symbol is not present even in non-terminals
+                        if(!nonTerminalVariables.contains(symbol)){
+                            System.out.println("Wrong production");
+                            System.exit(1);
+                        }
+                    }
+                }
+            }
+        }
+
+        if(isRegular){
+            System.out.println("Regular");
+        }
+        else if(isContextFree){
+            System.out.println("Context-free");
+        }
+        else {
+            System.out.println("Context-sensitive");
+        }
     }
 }
