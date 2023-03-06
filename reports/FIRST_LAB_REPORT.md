@@ -89,7 +89,7 @@ While the set of results does not contain the amount of strings we need, I creat
      System.out.print(stringBuilder + tempRes + " ---> ");
 
      for(int i = tempRes.length() - 1; i >= 0; i--){
-         stack.add(tempRes.charAt(i));
+         stack.add(String.valueOf(tempRes.charAt(i)));
      }
  }
  else{
@@ -116,36 +116,37 @@ Obtained arrayList of transition can be visualized using the `printTransition()`
 `FiniteAutomaton` abject can be formed by providing the possibleStates ( non-terminal variables ), alphabet ( terminal var ), initial state and final state ( also we add it in possibleStates ). Method `setTransition()` adds the provided `Transition` abject to the transitioned arrayList. I use it in method `toFiniteAutomaton()` from grammar.Grammar class. This method uses the productions hash map to form the `Transition` objects. It uses each key and all the possible right side production. If the ride side element length is smaller than 2, I create `Transition` object with provided key for currentState, first character of right side element as transitionLabel,  and finalState of automaton as nextState. If the element length is 2, nextState will be  the second character of element.
 
 ```java
- if(element.length() < 2){
-     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
-                                    finiteAutomaton.getFinalState()));
+ if(element.length() < 2 ){
+     finiteAutomaton.setTransitions(new Transition(key, element,
+             finiteAutomaton.getFinalState()));
  }
  else{
-     finiteAutomaton.setTransitions(new Transition(key,element.charAt(0),
-                                    element.charAt(1)));
+     finiteAutomaton.setTransitions(new Transition(key,String.valueOf(element.charAt(0)),
+             element.substring(1)));
  }
 ```
 
 `wordIsvalid()` is a method that checks if an input string can be obtained via the state transition from FiniteAutomaton. It goes through the input string, character by character and, using the arrayList of `Transition` object, checks if exist a transition with the same current state ( first `currentState` is `initialState` of FiniteAutomaton ) and the same transition label ( the analyzed character ). If exist such transition, it takes the currentState as next state of found transition, mark the valid field as true and repeat the process for the next character. The string is considered a valid one in the case when after it goes through each character, the `valid` field is marked as true and the `currentState` matches `finalState` of automaton.
 ```java
- myBreakLabel:
- for(int i = 0; i < word.length(); i++){
-     for(Transition tr : transitions){
-         if(tr.getCurrentState() == currentState &&
-            tr.getTransitionLabel() == word.charAt(i)){
-
-             currentState = tr.getNextState();
-             valid = true;
-             break;
-         }
-         else{
-             valid = false;
-             if(count == transitions.size()){
-                    break myBreakLabel;
-             }   
-         }
-     }
- }
+myBreakLabel:
+for(int i = 0; i < word.length(); i++){
+   int count = 0;
+   for(Transition tr : transitions){
+       count++;
+       if(tr.getCurrentState().equals(currentState) &&
+               tr.getTransitionLabel().equals(String.valueOf(word.charAt(i)))){
+           currentState = tr.getNextState();
+           valid = true;
+           break;
+       }
+       else{
+           valid = false;
+           if(count == transitions.size()){
+               break myBreakLabel;
+           }
+       }
+   }
+}
  ```
 
 
