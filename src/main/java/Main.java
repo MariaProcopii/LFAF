@@ -23,11 +23,13 @@ public class Main {
         finiteAutomaton1.setTransition("q2", "b", "q2");
 
 
-        Grammar grammar1 = finiteAutomaton1.toGrammar();
+        Grammar grammar1 = finiteAutomaton1.toGrammar(); //converting FiniteAutomaton to Grammar
+        
+        System.out.println(grammar1.getProductions()); //view the formed production from transitions set
 
-        grammar1.grammarType();
+        grammar1.grammarType(); //checking the grammar type
 
-        finiteAutomaton1.isNFA(); // New FA - should be non-deterministic
+        finiteAutomaton1.isNFA(); // This FA should be non-deterministic
 
     }
 }

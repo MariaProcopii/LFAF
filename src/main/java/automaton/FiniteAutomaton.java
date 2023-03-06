@@ -103,19 +103,13 @@ public class FiniteAutomaton
     }
 
     public void isNFA(){
-        HashMap<String, ArrayList<String>> labelRepetition = new HashMap<>();
-        for(String state : possibleStates){
-            labelRepetition.put(state, new ArrayList<>());
-            for(Transition transition : transitions){
-                if(state.equals(transition.getCurrentState())){
-                    if(labelRepetition.get(state).contains(transition.getTransitionLabel())){
-                        System.out.println("Non-deterministic FA");
-                        System.exit(1);
-                    }
-                    else{
-                        labelRepetition.get(state).add(transition.getTransitionLabel());
-                    }
-                }
+        Grammar grammar = this.toGrammar();
+        HashMap<String, ArrayList<String>> production = grammar.getProductions();
+
+        for(ArrayList<String> states : production.values()){
+            if(states.size() > alphabet.size()){
+                System.out.println("Non-deterministic FA");
+                System.exit(1);
             }
         }
         System.out.println("Deterministic FA");

@@ -20,10 +20,12 @@ public class Lab2 {
         finiteAutomaton1.setTransition("q2", "b", "q2");
 
 
-        Grammar grammar1 = finiteAutomaton1.toGrammar();
+        Grammar grammar1 = finiteAutomaton1.toGrammar(); //converting FiniteAutomaton to Grammar
 
-        grammar1.grammarType();
+        System.out.println(grammar1.getProductions()); //view the formed production from transitions set
 
-        finiteAutomaton1.isNFA(); // New FA - should be non-deterministic
+        grammar1.grammarType(); //checking the grammar type
+
+        finiteAutomaton1.isNFA(); // This FA should be non-deterministic
     }
 }

@@ -22,5 +22,7 @@ public class Lab1 {
         finiteAutomaton.wordIsValid("abac");  // check the string (function also return a boolean)
         finiteAutomaton.wordIsValid("ababaaaa");
 
+        finiteAutomaton.isNFA();  //not related to lab 1. Just to show that the given automaton is deterministic
+
     }
 }
