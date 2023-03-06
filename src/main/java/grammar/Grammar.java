@@ -22,6 +22,7 @@ public class Grammar {
     }
 
     public void genProductions(String[] prodKey, String[] prodVal) {
+
         for(int i = 0; i < prodKey.length; i++){
 
             if(!productions.containsKey(prodKey[i])){
@@ -72,8 +73,8 @@ public class Grammar {
                                               startSymbol, finalState);
         for(String key: productions.keySet()){
             for(String element: productions.get(key)){
-                if(element.length() < 2){
-                    finiteAutomaton.setTransitions(new Transition(key,String.valueOf(element.charAt(0)),
+                if(element.length() < 2 ){
+                    finiteAutomaton.setTransitions(new Transition(key, element,
                                                    finiteAutomaton.getFinalState()));
                 }
                 else{
@@ -100,12 +101,16 @@ public class Grammar {
         for(ArrayList<String> list : productions.values()){
             for(String element : list){
 
+                if(element.length() == 0){
+                    System.out.println("Unrestricted grammar Type 0");
+                    System.exit(1);
+                }
+
                 //check the chase when we have non-terminal of the form q1, q0 -> aq1
                 boolean isTwoSymbol = nonTerminalVariables.contains(element.substring(1));
 
-                // Check if production is of the form A -> aB or A -> a
+                // Check if production is not of the form A -> aB or A -> a
                 if(element.length() > 2 && !isTwoSymbol){
-                    System.out.println(element.substring(1));
                     isRegular = false;
                 }
 
@@ -120,7 +125,7 @@ public class Grammar {
                 else {
                     String symbol = String.valueOf(element.charAt(0));
 
-                    // Check if production is of the form A -> a
+                    // Check if production is not of the form A -> a
                     if(!terminalVariables.contains(symbol)){
                         isRegular = false;
                     }
@@ -129,13 +134,13 @@ public class Grammar {
         }
 
         if(isRegular){
-            System.out.println("Regular");
+            System.out.println("Regular Type 3");
         }
         else if(isContextFree){
-            System.out.println("Context-free");
+            System.out.println("Context-free Type 2");
         }
         else {
-            System.out.println("Context-sensitive");
+            System.out.println("Context-sensitive Type 1");
         }
     }
 }

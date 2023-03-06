@@ -2,10 +2,7 @@ package automaton;
 
 import grammar.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 
 public class FiniteAutomaton
 {
@@ -27,6 +24,15 @@ public class FiniteAutomaton
         alphabet = new HashSet<>(vt);
         this.initialState = initialState;
         this.finalState = finalState;
+    }
+    public ArrayList<Transition> getTransitions() {
+        return transitions;
+    }
+    public HashSet<String> getPossibleStates() {
+        return possibleStates;
+    }
+    public HashSet<String> getAlphabet() {
+        return alphabet;
     }
 
     public void setTransitions(Transition transition) {
@@ -94,5 +100,24 @@ public class FiniteAutomaton
         String[] alph = alphabet.toArray(new String[0]);
 
         return new Grammar(ps, alph, pk, pv, initialState);
+    }
+
+    public void isNFA(){
+        HashMap<String, ArrayList<String>> labelRepetition = new HashMap<>();
+        for(String state : possibleStates){
+            labelRepetition.put(state, new ArrayList<>());
+            for(Transition transition : transitions){
+                if(state.equals(transition.getCurrentState())){
+                    if(labelRepetition.get(state).contains(transition.getTransitionLabel())){
+                        System.out.println("Non-deterministic FA");
+                        System.exit(1);
+                    }
+                    else{
+                        labelRepetition.get(state).add(transition.getTransitionLabel());
+                    }
+                }
+            }
+        }
+        System.out.println("Deterministic FA");
     }
 }

@@ -15,7 +15,7 @@ public class Main {
         Grammar grammar = new Grammar(vn, vt, prodKey, prodVal, startSymbol);
 
 
-        System.out.println(grammar.generateWords(5)); // set of generated strings
+//        System.out.println(grammar.generateWords(5)); // set of generated strings
 
         FiniteAutomaton finiteAutomaton = grammar.toFiniteAutomaton("F");  // converting an object of type grammar.Grammar
                                                                        // to one of type Finite Automaton
@@ -38,8 +38,16 @@ public class Main {
         finiteAutomaton1.setTransition("q1", "a", "q0");
         finiteAutomaton1.setTransition("q2", "b", "q2");
 
+
         Grammar grammar1 = finiteAutomaton1.toGrammar();
-        System.out.println(grammar1.getProductions());
         grammar.grammarType();
+        grammar1.grammarType();
+
+//        System.out.println(finiteAutomaton1.getTransitions());
+//        System.out.println(finiteAutomaton1.getPossibleStates());
+//        System.out.println(finiteAutomaton1.getAlphabet());
+
+        finiteAutomaton.isNFA(); //FA from first lab - should be deterministic
+        finiteAutomaton1.isNFA(); // New FA - should be non-deterministic
     }
 }
