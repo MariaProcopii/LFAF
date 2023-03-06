@@ -95,11 +95,6 @@ public class Grammar {
                 isContextFree = false;
                 isRegular = false;
             }
-
-            else if(!nonTerminalVariables.contains(key)){
-                System.out.println("Wrong production");
-                System.exit(1);
-            }
         }
 
         for(ArrayList<String> list : productions.values()){
@@ -120,9 +115,6 @@ public class Grammar {
                     if(!terminalVariables.contains(first) || !nonTerminalVariables.contains(second)){
                         isRegular = false;
                     }
-//                    else if(!nonTerminalVariables.contains(second) && !nonTerminalVariables.contains(first)){
-//                        System.out.println("Wrong production");
-//                        System.exit(1);
                 }
 
                 else {
@@ -131,12 +123,6 @@ public class Grammar {
                     // Check if production is of the form A -> a
                     if(!terminalVariables.contains(symbol)){
                         isRegular = false;
-
-                        // Check if symbol is not present even in non-terminals
-                        if(!nonTerminalVariables.contains(symbol)){
-                            System.out.println("Wrong production");
-                            System.exit(1);
-                        }
                     }
                 }
             }
