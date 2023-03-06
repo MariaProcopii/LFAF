@@ -1,14 +1,11 @@
-import automaton.*;
-import grammar.*;
+import automaton.FiniteAutomaton;
+import grammar.Grammar;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
 
-public class Main {
+public class Lab2 {
     public static void main(String[] args) {
-
-        //look forward in Lab1 class to run the program for the first lab
-
-        //program for lab2
         HashSet<String> q = new HashSet<>(List.of("q0", "q1", "q2"));
         HashSet<String> alphabet = new HashSet<>(List.of("a", "b"));
         String finalState = "q2";
@@ -28,6 +25,5 @@ public class Main {
         grammar1.grammarType();
 
         finiteAutomaton1.isNFA(); // New FA - should be non-deterministic
-
     }
 }

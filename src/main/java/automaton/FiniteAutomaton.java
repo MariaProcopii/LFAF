@@ -62,11 +62,9 @@ public class FiniteAutomaton
             int count = 0;
             for(Transition tr : transitions){
                 count++;
-                System.out.println(currentState + " " + tr.getCurrentState() + tr.getTransitionLabel() + " to find " + word.charAt(i) + count);
                 if(tr.getCurrentState().equals(currentState) &&
                         tr.getTransitionLabel().equals(String.valueOf(word.charAt(i)))){
                     currentState = tr.getNextState();
-                    System.out.println(currentState);
                     valid = true;
                     break;
                 }
