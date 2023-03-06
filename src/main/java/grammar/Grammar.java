@@ -29,7 +29,7 @@ public class Grammar {
                 productions.put(prodKey[i], new ArrayList<>());
             }
             productions.get(prodKey[i]).add(prodVal[i]);
-            }
+        }
     }
 
     public ArrayList<String> generateWords(int wordsAmount){
@@ -69,17 +69,17 @@ public class Grammar {
 
     public FiniteAutomaton toFiniteAutomaton(String finalState){
         FiniteAutomaton finiteAutomaton = new FiniteAutomaton(nonTerminalVariables,
-                                              terminalVariables,
-                                              startSymbol, finalState);
+                terminalVariables,
+                startSymbol, finalState);
         for(String key: productions.keySet()){
             for(String element: productions.get(key)){
                 if(element.length() < 2 ){
                     finiteAutomaton.setTransitions(new Transition(key, element,
-                                                   finiteAutomaton.getFinalState()));
+                            finiteAutomaton.getFinalState()));
                 }
                 else{
                     finiteAutomaton.setTransitions(new Transition(key,String.valueOf(element.charAt(0)),
-                                                    element.substring(1)));
+                            element.substring(1)));
                 }
             }
         }

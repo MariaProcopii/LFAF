@@ -18,11 +18,11 @@ public class Main {
 //        System.out.println(grammar.generateWords(5)); // set of generated strings
 
         FiniteAutomaton finiteAutomaton = grammar.toFiniteAutomaton("F");  // converting an object of type grammar.Grammar
-                                                                       // to one of type Finite Automaton
+        // to one of type Finite Automaton
 
 //        finiteAutomaton.printTransitions(); // visualize formed transitions set from provided grammar
-//        finiteAutomaton.wordIsValid("abac");  // check the string (function also return a boolean)
-//        finiteAutomaton.wordIsValid("abababaaaa");
+        finiteAutomaton.wordIsValid("abac");  // check the string (function also return a boolean)
+        finiteAutomaton.wordIsValid("ababaaaac");
 
 // -------------------------Lab2---------------------
         HashSet<String> q = new HashSet<>(List.of("q0", "q1", "q2"));
@@ -42,10 +42,6 @@ public class Main {
         Grammar grammar1 = finiteAutomaton1.toGrammar();
         grammar.grammarType();
         grammar1.grammarType();
-
-//        System.out.println(finiteAutomaton1.getTransitions());
-//        System.out.println(finiteAutomaton1.getPossibleStates());
-//        System.out.println(finiteAutomaton1.getAlphabet());
 
         finiteAutomaton.isNFA(); //FA from first lab - should be deterministic
         finiteAutomaton1.isNFA(); // New FA - should be non-deterministic

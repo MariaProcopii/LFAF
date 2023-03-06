@@ -16,7 +16,7 @@ public class FiniteAutomaton
                            HashSet<String> vt,
                            String initialState,
                            String finalState
-                           ){
+    ){
 
         transitions = new ArrayList<>();
         possibleStates = new HashSet<>(vn);
@@ -54,35 +54,37 @@ public class FiniteAutomaton
     }
 
     public boolean wordIsValid(String word){
-    boolean valid = false;
-    String currentState = initialState;
+        boolean valid = false;
+        String currentState = initialState;
 
-    myBreakLabel:
-    for(int i = 0; i < word.length(); i++){
-        int count = 1;
-        for(Transition tr : transitions){
-            count++;
-            if(tr.getCurrentState().equals(currentState) &&
-                    tr.getTransitionLabel().equals(String.valueOf(word.charAt(i)))){
-                currentState = tr.getNextState();
-                valid = true;
-                break;
-            }
-            else{
-                valid = false;
-                if(count == transitions.size()){
-                    break myBreakLabel;
+        myBreakLabel:
+        for(int i = 0; i < word.length(); i++){
+            int count = 0;
+            for(Transition tr : transitions){
+                count++;
+                System.out.println(currentState + " " + tr.getCurrentState() + tr.getTransitionLabel() + " to find " + word.charAt(i) + count);
+                if(tr.getCurrentState().equals(currentState) &&
+                        tr.getTransitionLabel().equals(String.valueOf(word.charAt(i)))){
+                    currentState = tr.getNextState();
+                    System.out.println(currentState);
+                    valid = true;
+                    break;
+                }
+                else{
+                    valid = false;
+                    if(count == transitions.size()){
+                        break myBreakLabel;
+                    }
                 }
             }
         }
-    }
-    if(valid && currentState.equals(finalState)){
-        System.out.println("\nWord ["+ word +"] is valid");
-    }
-    else{
-        System.out.println("\nWord ["+ word +"] is not valid");
-    }
-    return valid;
+        if(valid && currentState.equals(finalState)){
+            System.out.println("\nWord ["+ word +"] is valid");
+        }
+        else{
+            System.out.println("\nWord ["+ word +"] is not valid");
+        }
+        return valid;
     }
 
     public Grammar toGrammar(){
