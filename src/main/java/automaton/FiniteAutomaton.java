@@ -3,12 +3,13 @@ package automaton;
 import grammar.*;
 
 import java.util.*;
+import java.util.regex.*;
 
 public class FiniteAutomaton
 {
     private HashSet<String> possibleStates;
     private HashSet<String> alphabet;
-    private final ArrayList<Transition> transitions;
+    private ArrayList<Transition> transitions;
     private final String initialState;
     private final String finalState;
 
@@ -109,9 +110,67 @@ public class FiniteAutomaton
         for(ArrayList<String> states : production.values()){
             if(states.size() > alphabet.size()){
                 System.out.println("Non-deterministic FA");
-                System.exit(1);
+                return;
             }
         }
         System.out.println("Deterministic FA");
+    }
+
+    public void convertToDFA(){
+        ArrayList<Transition> newTransitions = new ArrayList<>();
+        Grammar grammar = this.toGrammar();
+        Stack<String> stack = new Stack<>();
+        ArrayList<String> analyzed = new ArrayList<>(); //already included in states hashMap
+        stack.add(initialState);
+
+        while (!stack.empty()){
+            HashMap<String, ArrayList<String>> states = new HashMap<>();
+            String term = stack.pop();
+            analyzed.add(term);
+            ArrayList<String> prodList = new ArrayList<>();
+
+            if(possibleStates.contains(term)){ //state formed just from one term. Ex: q1
+                prodList = grammar.getProductions().get(term); //list of transition label and possible form that state
+            }
+            else {
+                HashSet<String> unique = new HashSet<>();
+                String pattern = "q\\d+"; //  extract strings that match the pattern "q" followed by one or more digits
+                Pattern p = Pattern.compile(pattern);
+                Matcher m = p.matcher(term);
+
+                while (m.find()) {
+                    String match = m.group();
+                    unique.addAll(grammar.getProductions().get(match));  //reunion between found terms
+                }
+                prodList.addAll(unique);
+                Collections.sort(prodList);
+            }
+            for(String element : prodList){
+                String trLabel = element.substring(0, 1);
+                String transition = element.substring(1); // now we can use q0 or A for representation of non-terminals
+
+                if(!states.containsKey(trLabel)){
+                states.put(trLabel, new ArrayList<>());
+                }
+                states.get(trLabel).add(transition);
+            }
+
+            for(String label : alphabet){
+                String newNextState;
+                if(!states.isEmpty()){
+                    newNextState = String.join("", states.get(label)); //form new state trans
+                }
+                else{
+                    newNextState = "empty";
+                }
+                newTransitions.add(new Transition(term, label , newNextState));
+
+                if(!analyzed.contains(newNextState) && !newNextState.equals("empty")){ //add state to stack if it wasn't analyzed yet
+                    stack.add(newNextState);
+                    analyzed.add(newNextState);
+                }
+            }
+        }
+        transitions = newTransitions;
     }
 }

@@ -1,7 +1,9 @@
 import automaton.*;
 import grammar.*;
 
+import java.sql.SQLOutput;
 import java.util.*;
+import java.util.regex.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,12 +26,16 @@ public class Main {
 
 
         Grammar grammar1 = finiteAutomaton1.toGrammar(); //converting FiniteAutomaton to Grammar
-        
-        System.out.println(grammar1.getProductions()); //view the formed production from transitions set
 
         grammar1.grammarType(); //checking the grammar type
 
         finiteAutomaton1.isNFA(); // This FA should be non-deterministic
+
+        finiteAutomaton1.convertToDFA(); //Convert NFA to DFA
+
+//        System.out.println(finiteAutomaton1.getTransitions()); //visualize new transitions. Not required
+
+        finiteAutomaton1.isNFA();  // Now this should be deterministic
 
     }
 }

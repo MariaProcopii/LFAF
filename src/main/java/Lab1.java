@@ -18,11 +18,9 @@ public class Lab1 {
         FiniteAutomaton finiteAutomaton = grammar.toFiniteAutomaton("F");  // converting an object of type Grammar
                                                                                    // to one of type FiniteAutomaton
 
-        finiteAutomaton.printTransitions(); // visualize formed transitions set from provided grammar
+//        finiteAutomaton.printTransitions(); // visualize formed transitions set from provided grammar. Not required
         finiteAutomaton.wordIsValid("abac");  // check the string (function also return a boolean)
         finiteAutomaton.wordIsValid("ababaaaa");
-
-        finiteAutomaton.isNFA();  //not related to lab 1. Just to show that the given automaton is deterministic
 
     }
 }

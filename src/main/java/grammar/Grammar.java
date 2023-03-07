@@ -103,7 +103,7 @@ public class Grammar {
 
                 if(element.length() == 0){
                     System.out.println("Unrestricted grammar Type 0");
-                    System.exit(1);
+                    return;
                 }
 
                 //check the chase when we have non-terminal of the form q1, q0 -> aq1
