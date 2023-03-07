@@ -143,4 +143,24 @@ public void isNFA(){
     System.out.println("Deterministic FA");
 }
 ```
+Final task was to implement some functionality that would convert an NDFA to a DFA. My variant was 23
+```
+Variant 23
+Q = {q0,q1,q2},
+∑ = {a,b},
+F = {q2},
+δ(q0,a) = q0,
+δ(q0,a) = q1,
+δ(q1,b) = q2,
+δ(q0,b) = q0,
+δ(q2,b) = q2,
+δ(q1,a) = q0
+```
+For a beter understanding I created the graphical represintation of this NFA:
+![image](https://user-images.githubusercontent.com/77497709/223445239-3e015790-4161-4452-b738-9e870caa4e3a.png)
+
+To convert this NFA to DFA, we need to get rid of different transition option with the same label for the same state ( ex q0 can make a transition in q0 and q1 using "a" ).
+In the end we need to obtain this DFA:
+![image](https://user-images.githubusercontent.com/77497709/223445971-2da0525f-bb6f-4d0f-a52d-40469cf19136.png)
+
 
