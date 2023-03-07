@@ -229,4 +229,26 @@ public void convertToDFA(){
 }
 ```
 
+##Conclusion
 
+After completing this laboratory work, I researched the Chomsky Hierarchy of Grammar Types. I also comprehended the distinction between a deterministic and nondeterministic FA and created the function that does so. I created a function to create the graphical representation of the Finite Automaton as well as the method to convert the NFA to the DFA.
+
+The following outcomes are obtained after executing the project:
+```
+
+Production list of converted grammar: {q1=[bq2, aq0], q2=[bq2], q0=[aq0, bq0, aq1]}
+Grammar type: Regular Type 3
+
+-----Before conversion-----
+FA type: Non-deterministic FA
+
+-----After conversion-----
+FA type: Deterministic FA
+```
+
+## References 
+
+1. https://github.com/DrVasile/FLFA-Labs
+2. https://github.com/DrVasile/FLFA-Labs-Examples
+3. https://else.fcim.utm.md/pluginfile.php/110458/mod_resource/content/0/LFPC_Guide.pdf
+4. https://www.tutorialspoint.com/automata_theory/chomsky_classification_of_grammars.htm
