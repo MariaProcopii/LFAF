@@ -43,8 +43,8 @@ Depending on an automaton's structure, there are instances where numerous states
     - Your program needs to gather and send the data about the automaton and the lib/tool/API return the visual representation.
 
 ## Implementation Description
-First I created a new function in grammar class called `grammarType()`. This method use the Chomsky clasification rules to classify the provided grammar. The main set of rules is:
-If the right element is bigger than 2 it mean that the provided grammar cannot be of type 3, so I mark isRegular = false. When the right element is equal to 2, we verify if the simbol from right contains one terminal and one non-terminal symbol. If not it is not of type 3. In the chase when the right word length is one, it should be terminal symbol, if not - isRegular = false. Also if the right element is an empty string, I clasify the grammar as Type 0 and terminate the programm.
+First I created a new function in grammar class called `grammarType()`. This method use the Chomsky classification rules to classify the provided grammar. The main set of rules is:
+If the right element is bigger than 2 it mean that the provided grammar cannot be of type 3, so I mark isRegular = false. When the right element is equal to 2, we verify if the symbol from right contains one terminal and one non-terminal symbol. If not it is not of type 3. In the chase when the right word length is one, it should be terminal symbol, if not - isRegular = false. Also if the right element is an empty string, I clasify the grammar as Type 0 and terminate the programm.
 
 ```java
 public void grammarType(){
@@ -107,7 +107,7 @@ public void grammarType(){
 }
 
 ```
-Next step was to convert a finite automaton to grammar. For that I've created a method in FiniteAutomaton class, called `toGrammar()`. Here, to form the production for grammar I need to create two list - `proKey`, `prodVal`. For that I pass through transitions set and form 2 arrays with key list and value list. Value list will be formed by concatinating the transition label and next state from transition abject. In the end it returns the formed grammar. 
+Next step was to convert a finite automaton to grammar. For that I've created a method in FiniteAutomaton class, called `toGrammar()`. Here, to form the production for grammar I need to create two list - `proKey`, `prodVal`. For that I pass through transitions set and form 2 arrays with key list and value list. Value list will be formed by concatenating the transition label and next state from transition abject. In the end it returns the formed grammar. 
 
 ```java
 public Grammar toGrammar(){
@@ -127,7 +127,7 @@ public Grammar toGrammar(){
     return new Grammar(ps, alph, pk, pv, initialState);
 }
 ```
-To verify if FA is deterministic or non-deterministic, in the method `isNFA()` I create the grammar from the finite automaton and check the values of production from that grammar. If the size of a list of possible state transitions is bigger than the alphabet lenght - the automaton is non-deterministic. For example we have this part of production: `q0 = [aq0, bq0, aq1]`. This list, for q0 has two option with the same label `"a"`, transition in `q0` and `q1`. So it makes this automaton non-deterministic.
+To verify if FA is deterministic or non-deterministic, in the method `isNFA()` I create the grammar from the finite automaton and check the values of production from that grammar. If the size of a list of possible state transitions is bigger than the alphabet length - the automaton is non-deterministic. For example we have this part of production: `q0 = [aq0, bq0, aq1]`. This list, for q0 has two option with the same label `"a"`, transition in `q0` and `q1`. So it makes this automaton non-deterministic.
 
 ```java
 public void isNFA(){
@@ -156,7 +156,7 @@ F = {q2},
 δ(q2,b) = q2,
 δ(q1,a) = q0
 ```
-For a beter understanding I created the graphical represintation of this NFA:
+For a better understanding I created the graphical representation of this NFA:
 
 ![image](https://user-images.githubusercontent.com/77497709/223445239-3e015790-4161-4452-b738-9e870caa4e3a.png)
 
@@ -165,9 +165,9 @@ In the end we need to obtain this DFA:
 
 ![image](https://user-images.githubusercontent.com/77497709/223445971-2da0525f-bb6f-4d0f-a52d-40469cf19136.png)
 
-First I create the `grammar` from the given automaton, a `stack` were I will store the states which I want to analyze, array list of already analized states which will not be included in stack. Next I add the `initialState` as the first state in `stack` and while stack is not empty I extract the element from the stack and call it `term`. `prodList` will contain list of transition label and possible from that transition state. As I transform NFA to DFA I will have combined states like q1q2, so before inserting elements in `prodList` I need to verify if the state from stack is in `possibleStates` - if not it is a combined one. In that chase I use regex to extract from the provided string ( ex q1q2 ) all the states, then, for the found states, extract all the possible transition from the grammar and add them in a set named `unique` which will be a reunion between found terms tranitions. Also I need to sort the array to not have in the future states like ( q0q1 q1q0 ) which will be considered as different one but in the fact be the same thing.
+First I create the `grammar` from the given automaton, a `stack` were I will store the states which I want to analyze, array list of already analyzed states which will not be included in stack. Next I add the `initialState` as the first state in `stack` and while stack is not empty I extract the element from the stack and call it `term`. `prodList` will contain list of transition label and possible from that transition state. As I transform NFA to DFA I will have combined states like q1q2, so before inserting elements in `prodList` I need to verify if the state from stack is in `possibleStates` - if not it is a combined one. In that chase I use regex to extract from the provided string ( ex q1q2 ) all the states, then, for the found states, extract all the possible transition from the grammar and add them in a set named `unique` which will be a reunion between found terms tranitions. Also I need to sort the array to not have in the future states like ( q0q1 q1q0 ) which will be considered as different one but in the fact be the same thing.
 
-After forming the `prodList`, I pass through each element, extract the label and transition and add them in the set `states`. Now I obtained from `[aq0, aq1, bq2] ---> {a=[q0, q1], b=[q2]}` for the state which we analyzed at the moment. I do that to find out if the state which we analyzed has dual choise transition. In the given exampe we can reach `q1 and q2` going through `"a"`. So our to get rid of that, I form a new state `q0q1`, form a new `transition` object, passing currently analyzed term as `currentState`, label as `transitionLabel`, new state as `nextState` and add it to `newTransitions` array. Next I add this state to the stack if it wasn't analized and in the end I change the old arrayList of `transitions` to new `newTransitions`.
+After forming the `prodList`, I pass through each element, extract the label and transition and add them in the set `states`. Now I obtained from `[aq0, aq1, bq2] ---> {a=[q0, q1], b=[q2]}` for the state which we analyzed at the moment. I do that to find out if the state which we analyzed has dual chose transition. In the given example we can reach `q1 and q2` going through `"a"`. So our to get rid of that, I form a new state `q0q1`, form a new `transition` object, passing currently analyzed term as `currentState`, label as `transitionLabel`, new state as `nextState` and add it to `newTransitions` array. Next I add this state to the stack if it wasn't analyzed and in the end I change the old arrayList of `transitions` to new `newTransitions`.
 
 ```java
 public void convertToDFA(){
