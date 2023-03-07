@@ -107,7 +107,7 @@ public void grammarType(){
 }
 
 ```
-Next step was to convert a finite automaton to grammar. For that I've created a method in FiniteAutomaton class, called `toGrammar()`. Here, to form the production for grammar I need to create two list - proKey, prodVal. For that I pass through transitions set and form 2 arrays with key list and value list. Value list will be formed by concatinating the transition label and next state from transition abject. In the end it returns the formed grammar. 
+Next step was to convert a finite automaton to grammar. For that I've created a method in FiniteAutomaton class, called `toGrammar()`. Here, to form the production for grammar I need to create two list - `proKey`, `prodVal`. For that I pass through transitions set and form 2 arrays with key list and value list. Value list will be formed by concatinating the transition label and next state from transition abject. In the end it returns the formed grammar. 
 
 ```java
 public Grammar toGrammar(){
@@ -127,7 +127,7 @@ public Grammar toGrammar(){
     return new Grammar(ps, alph, pk, pv, initialState);
 }
 ```
-To verify if FA is deterministic or non-deterministic, in the method `isNFA()` I create the grammar from the finite automaton and check the values of production from that grammar. If the size of a list of possible state transitions is bigger than the alphabet lenght - the automaton is non-deterministic. For example we have this part of production: q0 = [aq0, bq0, aq1]. This list, for q0 has two option with the same label "a", transition in q0 and q1. So it makes this automaton non-deterministic.
+To verify if FA is deterministic or non-deterministic, in the method `isNFA()` I create the grammar from the finite automaton and check the values of production from that grammar. If the size of a list of possible state transitions is bigger than the alphabet lenght - the automaton is non-deterministic. For example we have this part of production: `q0 = [aq0, bq0, aq1]`. This list, for q0 has two option with the same label `"a"`, transition in `q0` and `q1`. So it makes this automaton non-deterministic.
 
 ```java
 public void isNFA(){
@@ -164,5 +164,69 @@ To convert this NFA to DFA, we need to get rid of different transition option wi
 In the end we need to obtain this DFA:
 
 ![image](https://user-images.githubusercontent.com/77497709/223445971-2da0525f-bb6f-4d0f-a52d-40469cf19136.png)
+
+First I create the `grammar` from the given automaton, a `stack` were I will store the states which I want to analyze, array list of already analized states which will not be included in stack. Next I add the `initialState` as the first state in `stack` and while stack is not empty I extract the element from the stack and call it `term`. `prodList` will contain list of transition label and possible from that transition state. As I transform NFA to DFA I will have combined states like q1q2, so before inserting elements in `prodList` I need to verify if the state from stack is in `possibleStates` - if not it is a combined one. In that chase I use regex to extract from the provided string ( ex q1q2 ) all the states, then, for the found states, extract all the possible transition from the grammar and add them in a set named `unique` which will be a reunion between found terms tranitions. Also I need to sort the array to not have in the future states like ( q0q1 q1q0 ) which will be considered as different one but in the fact be the same thing.
+
+After forming the `prodList`, I pass through each element, extract the label and transition and add them in the set `states`. Now I obtained from `[aq0, aq1, bq2] ---> {a=[q0, q1], b=[q2]}` for the state which we analyzed at the moment. I do that to find out if the state which we analyzed has dual choise transition. In the given exampe we can reach `q1 and q2` going through `"a"`. So our to get rid of that, I form a new state `q0q1`, form a new `transition` object, passing currently analyzed term as `currentState`, label as `transitionLabel`, new state as `nextState` and add it to `newTransitions` array. Next I add this state to the stack if it wasn't analized and in the end I change the old arrayList of `transitions` to new `newTransitions`.
+
+```java
+public void convertToDFA(){
+    ArrayList<Transition> newTransitions = new ArrayList<>();
+    Grammar grammar = this.toGrammar();
+    Stack<String> stack = new Stack<>();
+    ArrayList<String> analyzed = new ArrayList<>(); //already included in states hashMap
+    stack.add(initialState);
+
+    while (!stack.empty()){
+        HashMap<String, ArrayList<String>> states = new HashMap<>();
+        String term = stack.pop();
+        analyzed.add(term);
+        ArrayList<String> prodList = new ArrayList<>();
+
+        if(possibleStates.contains(term)){ //state formed just from one term. Ex: q1
+            prodList = grammar.getProductions().get(term); //list of transition label and possible from that transition state
+        }
+        else {
+            HashSet<String> unique = new HashSet<>();
+            String pattern = "q\\d+"; //  extract strings that match the pattern "q" followed by one or more digits
+            Pattern p = Pattern.compile(pattern);
+            Matcher m = p.matcher(term);
+
+            while (m.find()) {
+                String match = m.group();
+                unique.addAll(grammar.getProductions().get(match));  //reunion between found terms
+            }
+            prodList.addAll(unique);
+            Collections.sort(prodList);
+        }
+        for(String element : prodList){
+            String trLabel = element.substring(0, 1);
+            String transition = element.substring(1); // now we can use q0 or A for representation of non-terminals
+
+            if(!states.containsKey(trLabel)){
+            states.put(trLabel, new ArrayList<>());
+            }
+            states.get(trLabel).add(transition);
+        }
+
+        for(String label : alphabet){
+            String newNextState;
+            if(!states.isEmpty()){
+                newNextState = String.join("", states.get(label)); //form new state trans
+            }
+            else{
+                newNextState = "empty";
+            }
+            newTransitions.add(new Transition(term, label , newNextState));
+
+            if(!analyzed.contains(newNextState) && !newNextState.equals("empty")){ //add state to stack if it wasn't analyzed yet
+                stack.add(newNextState);
+                analyzed.add(newNextState);
+            }
+        }
+    }
+    transitions = newTransitions;
+}
+```
 
 
