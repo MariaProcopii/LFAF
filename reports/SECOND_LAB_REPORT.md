@@ -107,3 +107,23 @@ public void grammarType(){
 }
 
 ```
+Next step was to convert a finite automaton to grammar. For that I've created a method in FiniteAutomaton class, called `toGrammar()`. Here, to form the production for grammar I need to create two list - proKey, prodVal. For that I pass through transitions set and form 2 arrays with key list and value list. Value list will be formed by concatinating the transition label and next state from transition abject. In the end it returns the formed grammar. 
+
+```java
+public Grammar toGrammar(){
+
+    ArrayList<String> prodKey = new ArrayList<>();
+    ArrayList<String> prodVal = new ArrayList<>();
+    for(Transition tr: transitions){
+        prodKey.add(tr.getCurrentState());
+        prodVal.add(tr.getTransitionLabel() + tr.getNextState());
+    }
+
+    String[] pk = prodKey.toArray(new String[0]);
+    String[] pv = prodVal.toArray(new String[0]);
+    String[] ps = possibleStates.toArray(new String[0]);
+    String[] alph = alphabet.toArray(new String[0]);
+
+    return new Grammar(ps, alph, pk, pv, initialState);
+}
+```
