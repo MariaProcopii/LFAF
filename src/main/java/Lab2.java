@@ -22,14 +22,18 @@ public class Lab2 {
 
         Grammar grammar1 = finiteAutomaton1.toGrammar(); //converting FiniteAutomaton to Grammar
 
+        System.out.println("Production list of converted grammar: " + grammar1.getProductions());  //production list
+
         grammar1.grammarType(); //checking the grammar type
 
+        System.out.println("\n-----Before conversion-----");
         finiteAutomaton1.isNFA(); // This FA should be non-deterministic
 
         finiteAutomaton1.convertToDFA(); //Convert NFA to DFA
 
 //        System.out.println(finiteAutomaton1.getTransitions()); //visualize new transitions. Not required
 
+        System.out.println("\n-----After conversion-----");
         finiteAutomaton1.isNFA();  // Now this should be deterministic
     }
 }

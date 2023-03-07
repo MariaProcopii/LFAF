@@ -102,7 +102,7 @@ public class Grammar {
             for(String element : list){
 
                 if(element.length() == 0){
-                    System.out.println("Unrestricted grammar Type 0");
+                    System.out.println("Grammar type: Unrestricted grammar Type 0");
                     return;
                 }
 
@@ -134,13 +134,13 @@ public class Grammar {
         }
 
         if(isRegular){
-            System.out.println("Regular Type 3");
+            System.out.println("Grammar type: Regular Type 3");
         }
         else if(isContextFree){
-            System.out.println("Context-free Type 2");
+            System.out.println("Grammar type: Context-free Type 2");
         }
         else {
-            System.out.println("Context-sensitive Type 1");
+            System.out.println("Grammar type: Context-sensitive Type 1");
         }
     }
 }

@@ -109,11 +109,11 @@ public class FiniteAutomaton
 
         for(ArrayList<String> states : production.values()){
             if(states.size() > alphabet.size()){
-                System.out.println("Non-deterministic FA");
+                System.out.println("FA type: Non-deterministic FA");
                 return;
             }
         }
-        System.out.println("Deterministic FA");
+        System.out.println("FA type: Deterministic FA");
     }
 
     public void convertToDFA(){
@@ -130,7 +130,7 @@ public class FiniteAutomaton
             ArrayList<String> prodList = new ArrayList<>();
 
             if(possibleStates.contains(term)){ //state formed just from one term. Ex: q1
-                prodList = grammar.getProductions().get(term); //list of transition label and possible form that state
+                prodList = grammar.getProductions().get(term); //list of transition label and possible from that transition state
             }
             else {
                 HashSet<String> unique = new HashSet<>();
