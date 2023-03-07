@@ -235,7 +235,6 @@ After completing this laboratory work, I researched the Chomsky Hierarchy of Gra
 
 The following outcomes are obtained after executing the project:
 ```
-
 Production list of converted grammar: {q1=[bq2, aq0], q2=[bq2], q0=[aq0, bq0, aq1]}
 Grammar type: Regular Type 3
 
