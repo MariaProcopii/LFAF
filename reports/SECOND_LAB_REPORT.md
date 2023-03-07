@@ -127,3 +127,20 @@ public Grammar toGrammar(){
     return new Grammar(ps, alph, pk, pv, initialState);
 }
 ```
+To verify if FA is deterministic or non-deterministic, in the method `isNFA()` I create the grammar from the finite automaton and check the values of production from that grammar. If the size of a list of possible state transitions is bigger than the alphabet lenght - the automaton is non-deterministic. For example we have this part of production: q0 = [aq0, bq0, aq1]. This list, for q0 has two option with the same label "a", transition in q0 and q1. So it makes this automaton non-deterministic.
+
+```java
+public void isNFA(){
+    Grammar grammar = this.toGrammar();
+    HashMap<String, ArrayList<String>> production = grammar.getProductions();
+
+    for(ArrayList<String> states : production.values()){
+        if(states.size() > alphabet.size()){
+            System.out.println("Non-deterministic FA");
+            return;
+        }
+    }
+    System.out.println("Deterministic FA");
+}
+```
+
