@@ -157,10 +157,12 @@ F = {q2},
 δ(q1,a) = q0
 ```
 For a beter understanding I created the graphical represintation of this NFA:
+
 ![image](https://user-images.githubusercontent.com/77497709/223445239-3e015790-4161-4452-b738-9e870caa4e3a.png)
 
 To convert this NFA to DFA, we need to get rid of different transition option with the same label for the same state ( ex q0 can make a transition in q0 and q1 using "a" ).
 In the end we need to obtain this DFA:
+
 ![image](https://user-images.githubusercontent.com/77497709/223445971-2da0525f-bb6f-4d0f-a52d-40469cf19136.png)
 
 
