@@ -197,7 +197,7 @@ if it's not a predefined keyword.
 		} 
 ...
 ```
-##Example:
+## Example:
 
 Input code:
 ```
@@ -236,14 +236,14 @@ Type:), Literal:)
 
 ```
 
-##Conclusion
+## Conclusion:
 
 In conclusion, a lexer is a software element that does lexical analysis on a program's source code.
 It disassembles the code into a series of tokens, which are significant chunks of syntax in programming languages.
 The lexer's token list creates a structured representation of the code that the compiler or interpreter can readily process in later stages.
 The performance and correctness of the final program can be greatly influenced by the lexer, which is an essential step in the compilation process.
 
-##References:
+## References:
 
 1. https://github.com/DrVasile/FLFA-Labs
 2. https://github.com/DrVasile/FLFA-Labs-Examples
