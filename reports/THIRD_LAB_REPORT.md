@@ -1,4 +1,4 @@
-# Topic: Lexer & Scaner
+# Topic: Lexer & Scanner
 
 ### Course: Formal Languages & Finite Automata
 ### Author: Procopii Maria
@@ -23,12 +23,12 @@ Lexers are frequently employed in interpreters, compilers, and other source code
 
 ## Implementation Description:
 
-First of all, I want to note thtat the lexer was made in Go because it is the part of my PBL project and there I've made the lexer for GPeneral Purpose Language in go.
+First of all, I want to note that the lexer was made in Go because it is the part of my PBL project and there I've made the lexer for General Purpose Language in go.
 No Java for this lab. :(
-My programm contains a file named `repl.go` (repeat evaluate print loop) to allow the user to enter and execute commands or code snippets one at a time, and immediately
+My program contains a file named `repl.go` (repeat evaluate print loop) to allow the user to enter and execute commands or code snippets one at a time, and immediately
 see the results of their actions. My this chase, the result will be the token list from the input code.
-Here things are simple, it reads the input code, create a instance of lexe (giving the code, which will be passed as a string), and in the end it will output the result.
-Token are conposed from Type and the literal.
+Here things are simple, it reads the input code, create an instance of lexer (giving the code, which will be passed as a string), and in the end it will output the result.
+Token are composed of Type and the literal.
 ```go
 const PROMPT = ">> "
 
@@ -52,7 +52,7 @@ func Start(in io.Reader, out io.Writer) {
 	}
 }
 ```
-First step in creating the lexer was to made the token list, which contains every type of token, such as:
+First step in creating the lexer was to make the token list, which contains every type of token, such as:
 
 1. Identifiers
 2. Literals
@@ -96,8 +96,8 @@ IDENT  = "IDENT"
   ....and much more
 ```
 
-So, in `token.go` file I defined the structure of the token,, tokenType 'list', a map of keywords and a special fucnction
-named `LookIdent` which will verify if the string is a keyvord or just a IDENT ( user-defined variables, function signatures ).
+So, in `token.go` file I defined the structure of the token, tokenType 'list', a map of keywords and a special function
+named `LookIdent` which will verify if the string is a keyword or just a IDENT ( user-defined variables, function signatures ).
 ```go
 func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
@@ -110,7 +110,7 @@ func LookupIdent(ident string) TokenType {
 
 The main functionality is in `lexer.go`. Here I have the lexer structure, which contains: `input` - the input string/'code', `position` - index 
 of our char position at the moment, `readPossition` - index of next char, `ch` - the actual char of current position. We need to analyze two chars per time
-because when we have situations like increment ++, decrement --, equal ==, and operation &&..., we need to asign one tokenType per these two symbols.
+because when we have situations like increment ++, decrement --, equal ==, and operation &&..., we need to assign one tokenType per these two symbols.
 I have a lot of secondary functions like: `isLeter` - verify if the ch is a letter, `isDigit` - verify if it's a number, `isString`, `skipWhitespaces` to ignore the white spaces.
 ```go
 ...
@@ -123,8 +123,8 @@ func isDigit(ch byte) bool {
 }
 ...
 ```
-Function `readChar` reads and asigns the current char, increase the index of the readPossition - index of next char.
-`ReadIdentifier` we use to read the user-defined variables, function signatures, to asign the result as token Literal.
+Function `readChar` reads and assigns the current char, increase the index of the readPossition - index of next char.
+`ReadIdentifier` we use to read the user-defined variables, function signatures, to assign the result as token Literal.
 `ReadNumber` - same as the previous but with numbers.
 `peekChar` - returns the char of the next char in the string. ( for readPosition )
 `readString` - used to read the strings ( to take the whole string, not just one char )
@@ -150,9 +150,9 @@ func (l *Lexer) readChar() {
 }
 ...
 ```
-The main functionality is placed in swich case block. We analyze the character and for each case, we asign the recuired tokenType.
+The main functionality is placed in switch case block. We analyze the character and for each case, we assign the required tokenType.
 In the end we return the formed token.
-In case such as '=', '+', '-', we should also analyze the next char, to check if we have incremention, equal sign ..., here we use
+In case such as '=', '+', '-', we should also analyze the next char, to check if we have increment, equal sign ..., here we use
 functions `peekChar` and `readChar`.
 
 ```go
