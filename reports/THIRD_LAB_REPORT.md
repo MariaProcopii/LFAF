@@ -248,5 +248,5 @@ The performance and correctness of the final program can be greatly influenced b
 1. https://github.com/DrVasile/FLFA-Labs
 2. https://github.com/DrVasile/FLFA-Labs-Examples
 3. https://en.wikipedia.org/wiki/Lexical_analysis
-4. Writing an interpreter in go - https://en.wikipedia.org/wiki/Lexical_analysis
+4. Writing an interpreter in go - https://interpreterbook.com/
 
