@@ -114,13 +114,20 @@ public class ToCNF{
             String symbol = verifiedProd.pop();
             ArrayList<String> prodList = grammar.getProductions().get(symbol);
 
-            for (String prod : prodList) {
+            for (int i = 0; i < prodList.size(); i++) {
+                String prod = prodList.get(i);
                 for (int j = 0; j < prod.length(); j++) {
                     char ch = prod.charAt(j);
                     String leftProd = Character.toString(ch);
                     if (Character.isUpperCase(ch) && !prodFromStartS.contains(leftProd)) {
-                        prodFromStartS.add(leftProd);
-                        verifiedProd.push(leftProd);
+//                        System.out.println(grammar.getProductions().get(leftProd) + leftProd);
+                        System.out.println(grammar.getProductions() + "Hereeeeeeeeeeeeeeeeeeee" + leftProd + " " + prod);
+                        boolean isNonProd = rmNonProdSymbols(leftProd, prod, prodList); //check for non-prod symbols
+//                        boolean isNonProd = false;
+                        if(!isNonProd){
+                            prodFromStartS.add(leftProd);
+                            verifiedProd.push(leftProd);
+                        }
                     }
                 }
             }
@@ -131,6 +138,43 @@ public class ToCNF{
                 grammar.getProductions().remove(symbol);
             }
         }
+    }
+
+    private static boolean rmNonProdSymbols(String leftProd, String prod, ArrayList<String> prodList) {
+        if (grammar.getProductions().get(leftProd) == null) { //symbol is non-productive because it's not present in production set
+            System.out.println("symbol is non-productive" + grammar.getProductions());
+            prodList.remove(prod);
+            return true;
+        }
+        boolean cannotTerminate = true;  //production can't be terminated. Ex: C -> aC
+        boolean hasTerminal = false; // we need it in the chase we have Ex: C -> aC | a
+        boolean hasAnotherProd = false; // we need it to check the chase Ex: C -> aC | AB
+        HashSet<String> anotherProd = new HashSet<>();
+
+        for(String symbol : grammar.getProductions().get(leftProd)){
+            System.out.println(grammar.getProductions() + "Heree22222" + leftProd + " " + symbol + cannotTerminate);
+
+            if(symbol.length() == 1 && Character.isLowerCase(symbol.charAt(0))){
+                cannotTerminate = false;
+                hasTerminal = true;
+            }
+            for(int i = 0; i < symbol.length(); i++){
+                char ch = symbol.charAt(i);
+                if(!Character.toString(ch).equals(leftProd)){
+                    hasAnotherProd = true;
+                    anotherProd.add(Character.toString(ch));
+                }
+            }
+        }
+        if(!hasTerminal && hasAnotherProd){
+            cannotTerminate = false;
+        }
+        if(cannotTerminate){
+            prodList.remove(prod);
+            grammar.getProductions().remove(leftProd);
+            return true;
+        }
+        return false;
     }
 
     //used to work with a copy for the given grammar
@@ -146,6 +190,6 @@ public class ToCNF{
         grammar = gr;
         rmEmptyProd();
         rmUnitProd();
-        rmInaccessibleProd();
+//        rmInaccessibleProd();
     }
 }
