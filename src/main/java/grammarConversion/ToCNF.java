@@ -8,6 +8,7 @@ import java.lang.*;
 public class ToCNF{
 
     private static Grammar grammar;
+    private static int count = 0;
 
     //for not being able to make the instance of the ToCNF class
     private ToCNF(){}
@@ -173,6 +174,32 @@ public class ToCNF{
             return true;
         }
         return false;
+    }
+
+    public static void modProductoinCNF(){
+        HashMap<String, String> terminalNewProd = new HashMap<>();
+        for(String vn : grammar.getTerminalVariables()){
+            String key = newLP();
+            grammar.getProductions().put(key, new ArrayList<>(Arrays.asList(vn)));
+            terminalNewProd.put(vn, key);
+        }
+
+        for(String prodLeft : grammar.getProductions().keySet()) {
+            ArrayList<String> prodList = grammar.getProductions().get(prodLeft);
+            for (int i = 0; i < prodList.size(); i++) {
+                String s = prodList.get(i);
+
+
+//                if(s.length() == 1 && prodLeft.charAt(0) != 'X'){
+//                    prodList.remove(i);
+//                    prodList.add(i, terminalNewProd.get(s));
+//                }
+            }
+        }
+    }
+
+    public static String newLP(){
+        return "X" + count++;
     }
 
     //used to work with a copy for the given grammar
