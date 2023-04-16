@@ -18,17 +18,6 @@ public class Main {
                                                            // production changed in the end
         System.out.println(grammar.getProductions());
         System.out.println(grammar1.getProductions());
-        rmUnitProd(grammar1);
 
-    }
-
-    public static void rmUnitProd(Grammar grammar){
-        for(String key : grammar.getProductions().keySet()){
-            ArrayList<String> prodList = grammar.getProductions().get(key);
-            for(String prod : prodList){
-                if(prod.length() == 1 && Character.isUpperCase(prod.charAt(0))){
-                }
-            }
-        }
     }
 }

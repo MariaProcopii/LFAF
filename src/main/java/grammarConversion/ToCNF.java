@@ -93,10 +93,11 @@ public class ToCNF{
     public void rmUnitProd(){
         for(String key : grammar.getProductions().keySet()){
             ArrayList<String> prodList = grammar.getProductions().get(key);
-            for(String prod : prodList){
+            for(int i = 0; i < prodList.size(); i ++){
+                String prod = prodList.get(i);
                 if(prod.length() == 1 && Character.isUpperCase(prod.charAt(0))){ //chase when we have unit A -> B
                     prodList.remove(prod); // remove the found production Ex: B
-                    prodList.addAll(grammar.getProductions().get(key)); // add the set of productions corresponding to deleted production B -> ...
+                    prodList.addAll(grammar.getProductions().get(prod)); // add the set of productions corresponding to deleted production B -> ...
                 }
             }
         }
@@ -104,6 +105,7 @@ public class ToCNF{
 
     public Grammar getCopyModGrammar(){
         rmEmptyProd();
+        rmUnitProd();
         return grammar;
     }
 }
