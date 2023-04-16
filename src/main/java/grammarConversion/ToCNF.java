@@ -120,13 +120,14 @@ public class ToCNF{
                     char ch = prod.charAt(j);
                     String leftProd = Character.toString(ch);
                     if (Character.isUpperCase(ch) && !prodFromStartS.contains(leftProd)) {
-//                        System.out.println(grammar.getProductions().get(leftProd) + leftProd);
-                        System.out.println(grammar.getProductions() + "Hereeeeeeeeeeeeeeeeeeee" + leftProd + " " + prod);
-                        boolean isNonProd = rmNonProdSymbols(leftProd, prod, prodList); //check for non-prod symbols
-//                        boolean isNonProd = false;
+
+                        boolean isNonProd = rmNonProdSymbols(leftProd, prod, prodList); //check for non-productive symbols
                         if(!isNonProd){
                             prodFromStartS.add(leftProd);
                             verifiedProd.push(leftProd);
+                        }
+                        else{
+                            i--;
                         }
                     }
                 }
@@ -149,10 +150,8 @@ public class ToCNF{
         boolean cannotTerminate = true;  //production can't be terminated. Ex: C -> aC
         boolean hasTerminal = false; // we need it in the chase we have Ex: C -> aC | a
         boolean hasAnotherProd = false; // we need it to check the chase Ex: C -> aC | AB
-        HashSet<String> anotherProd = new HashSet<>();
 
         for(String symbol : grammar.getProductions().get(leftProd)){
-            System.out.println(grammar.getProductions() + "Heree22222" + leftProd + " " + symbol + cannotTerminate);
 
             if(symbol.length() == 1 && Character.isLowerCase(symbol.charAt(0))){
                 cannotTerminate = false;
@@ -162,7 +161,6 @@ public class ToCNF{
                 char ch = symbol.charAt(i);
                 if(!Character.toString(ch).equals(leftProd)){
                     hasAnotherProd = true;
-                    anotherProd.add(Character.toString(ch));
                 }
             }
         }
@@ -183,6 +181,7 @@ public class ToCNF{
         rmEmptyProd();
         rmUnitProd();
         rmInaccessibleProd();
+        //rmNonProdSymbols() is used in rmInaccessibleProd()
         return grammar;
     }
     //used to work directly with the given grammar
@@ -190,6 +189,7 @@ public class ToCNF{
         grammar = gr;
         rmEmptyProd();
         rmUnitProd();
-//        rmInaccessibleProd();
+        rmInaccessibleProd();
+        //rmNonProdSymbols() is used in rmInaccessibleProd()
     }
 }
