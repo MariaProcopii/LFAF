@@ -3,9 +3,9 @@ package grammar;
 import java.util.*;
 import automaton.*;
 public class Grammar {
-    private final HashSet<String> nonTerminalVariables = new HashSet<>();
-    private final HashSet<String> terminalVariables = new HashSet<>();
-    private final HashMap<String, ArrayList<String>> productions = new HashMap<>();
+    private HashSet<String> nonTerminalVariables = new HashSet<>();
+    private HashSet<String> terminalVariables = new HashSet<>();
+    private HashMap<String, ArrayList<String>> productions = new HashMap<>();
     private final String startSymbol;
 
     public Grammar(String[] vn, String[] vt, String[] prodKey,
@@ -15,6 +15,24 @@ public class Grammar {
         terminalVariables.addAll(Arrays.asList(vt));
         genProductions(prodKey, prodVal);
         this.startSymbol = startSymbol;
+    }
+
+
+    public Grammar(Grammar other) {
+        this.nonTerminalVariables = new HashSet<>(other.nonTerminalVariables);
+        this.terminalVariables = new HashSet<>(other.terminalVariables);
+        this.productions = copyHashMapWithArrayListValues(other.productions); // use the copyHashMapWithArrayListValues method
+        this.startSymbol = other.startSymbol;
+    }
+
+    private HashMap<String, ArrayList<String>> copyHashMapWithArrayListValues(HashMap<String, ArrayList<String>> original) {
+        HashMap<String, ArrayList<String>> copy = new HashMap<>();
+        for (Map.Entry<String, ArrayList<String>> entry : original.entrySet()) {
+            ArrayList<String> originalList = entry.getValue();
+            ArrayList<String> copyList = new ArrayList<>(originalList);
+            copy.put(entry.getKey(), copyList);
+        }
+        return copy;
     }
 
     public HashMap<String, ArrayList<String>> getProductions() {
@@ -30,6 +48,18 @@ public class Grammar {
             }
             productions.get(prodKey[i]).add(prodVal[i]);
         }
+    }
+
+    public HashSet<String> getNonTerminalVariables() {
+        return nonTerminalVariables;
+    }
+
+    public HashSet<String> getTerminalVariables() {
+        return terminalVariables;
+    }
+
+    public String getStartSymbol() {
+        return startSymbol;
     }
 
     public ArrayList<String> generateWords(int wordsAmount){

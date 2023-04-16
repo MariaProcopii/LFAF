@@ -1,44 +1,34 @@
-import automaton.*;
 import grammar.*;
+import grammarConversion.*;
 
-import java.sql.SQLOutput;
 import java.util.*;
-import java.util.regex.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        //look forward in Lab1 class to run the program for the first lab
+        String[] vn = {"S","A", "B", "C", "E"}; //non terminal variables
+        String[] vt = {"a", "b"};  //terminal variables
+        String[] prodKey = {"S", "S", "A", "A", "A", "B", "B", "B", "C", "C", "E"};  //left side of production
+        String[] prodVal = {"bAC", "B", "a", "aS", "bCaCb", "AC", "bS", "aAa", "", "AB", "BA"};  //right side of production
+        String startSymbol = "S";
 
-        //program for lab2
-        HashSet<String> q = new HashSet<>(List.of("q0", "q1", "q2"));
-        HashSet<String> alphabet = new HashSet<>(List.of("a", "b"));
-        String finalState = "q2";
-        String initialState = "q0";
+        Grammar grammar = new Grammar(vn, vt, prodKey, prodVal, startSymbol);
+        ToCNF modGrammar = new ToCNF(grammar);
+        Grammar grammar1 = modGrammar.getCopyModGrammar(); // I'm working with a copy of initial grammar to see how
+                                                           // production changed in the end
+        System.out.println(grammar.getProductions());
+        System.out.println(grammar1.getProductions());
+        rmUnitProd(grammar1);
 
-        FiniteAutomaton finiteAutomaton1 = new FiniteAutomaton(q, alphabet, initialState, finalState);
-        finiteAutomaton1.setTransition("q0", "a", "q0");
-        finiteAutomaton1.setTransition("q0", "b", "q0");
-        finiteAutomaton1.setTransition("q0", "a", "q1");
-        finiteAutomaton1.setTransition("q1", "b", "q2");
-        finiteAutomaton1.setTransition("q1", "a", "q0");
-        finiteAutomaton1.setTransition("q2", "b", "q2");
+    }
 
-
-        Grammar grammar1 = finiteAutomaton1.toGrammar(); //converting FiniteAutomaton to Grammar
-
-        System.out.println("Production list of converted grammar: " + grammar1.getProductions());  //production list
-
-        grammar1.grammarType(); //checking the grammar type
-
-        System.out.println("\n-----Before conversion-----");
-        finiteAutomaton1.isNFA(); // This FA should be non-deterministic
-
-        finiteAutomaton1.convertToDFA(); //Convert NFA to DFA
-
-//        System.out.println(finiteAutomaton1.getTransitions()); //visualize new transitions. Not required
-
-        System.out.println("\n-----After conversion-----");
-        finiteAutomaton1.isNFA();  // Now this should be deterministic
+    public static void rmUnitProd(Grammar grammar){
+        for(String key : grammar.getProductions().keySet()){
+            ArrayList<String> prodList = grammar.getProductions().get(key);
+            for(String prod : prodList){
+                if(prod.length() == 1 && Character.isUpperCase(prod.charAt(0))){
+                }
+            }
+        }
     }
 }
