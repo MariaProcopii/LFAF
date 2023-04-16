@@ -16,8 +16,7 @@ public class Main {
         Grammar grammar1 = ToCNF.getCopyModGrammar(grammar); //works with the copy of provided grammar
         System.out.println(grammar.getProductions());
         System.out.println(grammar1.getProductions());
-        ToCNF.modifyGrammar(grammar);
+//        ToCNF.modifyGrammar(grammar);
         System.out.println(grammar.getProductions());
-
     }
 }

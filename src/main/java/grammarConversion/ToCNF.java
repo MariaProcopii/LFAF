@@ -103,11 +103,42 @@ public class ToCNF{
         }
     }
 
+    private static void rmInaccessibleProd(){ //when the production doesn't appear in any deviation from the starting symbol
+        ArrayList<String> prodFromStartS = new ArrayList<>();
+        Stack<String> verifiedProd = new Stack<>();
+        String start = grammar.getStartSymbol();
+        prodFromStartS.add(start);
+        verifiedProd.push(start);
+
+        while(!verifiedProd.isEmpty()){ //collect all the reachable productions from the starting one
+            String symbol = verifiedProd.pop();
+            ArrayList<String> prodList = grammar.getProductions().get(symbol);
+
+            for (String prod : prodList) {
+                for (int j = 0; j < prod.length(); j++) {
+                    char ch = prod.charAt(j);
+                    String leftProd = Character.toString(ch);
+                    if (Character.isUpperCase(ch) && !prodFromStartS.contains(leftProd)) {
+                        prodFromStartS.add(leftProd);
+                        verifiedProd.push(leftProd);
+                    }
+                }
+            }
+        }
+        for (String symbol : grammar.getNonTerminalVariables()) { //remove inaccessible productions
+            if (!prodFromStartS.contains(symbol)) {
+                grammar.getNonTerminalVariables().remove(symbol);
+                grammar.getProductions().remove(symbol);
+            }
+        }
+    }
+
     //used to work with a copy for the given grammar
     public static Grammar getCopyModGrammar(Grammar gr){
         grammar = new Grammar(gr);
         rmEmptyProd();
         rmUnitProd();
+        rmInaccessibleProd();
         return grammar;
     }
     //used to work directly with the given grammar
@@ -115,5 +146,6 @@ public class ToCNF{
         grammar = gr;
         rmEmptyProd();
         rmUnitProd();
+        rmInaccessibleProd();
     }
 }
