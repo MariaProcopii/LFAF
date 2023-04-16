@@ -18,13 +18,16 @@ public class Grammar {
     }
 
 
-    public Grammar(Grammar other) {
+    public Grammar(Grammar other) { // Copy constructor
         this.nonTerminalVariables = new HashSet<>(other.nonTerminalVariables);
         this.terminalVariables = new HashSet<>(other.terminalVariables);
-        this.productions = copyHashMapWithArrayListValues(other.productions); // use the copyHashMapWithArrayListValues method
+        this.productions = copyHashMapWithArrayListValues(other.productions);
         this.startSymbol = other.startSymbol;
     }
 
+    // Method is used to make the copy of hashMap. We can't just do a new instance
+    // of HashMap as we ded with HashSet because values are
+    // represented as ArrayList and we need to iterate through them
     private HashMap<String, ArrayList<String>> copyHashMapWithArrayListValues(HashMap<String, ArrayList<String>> original) {
         HashMap<String, ArrayList<String>> copy = new HashMap<>();
         for (Map.Entry<String, ArrayList<String>> entry : original.entrySet()) {

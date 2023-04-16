@@ -13,11 +13,11 @@ public class Main {
         String startSymbol = "S";
 
         Grammar grammar = new Grammar(vn, vt, prodKey, prodVal, startSymbol);
-        ToCNF modGrammar = new ToCNF(grammar);
-        Grammar grammar1 = modGrammar.getCopyModGrammar(); // I'm working with a copy of initial grammar to see how
-                                                           // production changed in the end
+        Grammar grammar1 = ToCNF.getCopyModGrammar(grammar); //works with the copy of provided grammar
         System.out.println(grammar.getProductions());
         System.out.println(grammar1.getProductions());
+        ToCNF.modifyGrammar(grammar);
+        System.out.println(grammar.getProductions());
 
     }
 }

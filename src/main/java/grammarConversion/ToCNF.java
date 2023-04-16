@@ -7,12 +7,12 @@ import java.lang.*;
 
 public class ToCNF{
 
-    private final Grammar grammar;
-    public ToCNF(Grammar gr) {
-        this.grammar = new Grammar(gr);
-    }
+    private static Grammar grammar;
 
-    private void rmEmptyProd(){
+    //for not being able to make the instance of the ToCNF class
+    private ToCNF(){}
+
+    private static void rmEmptyProd(){
         HashSet<String> emptyProd = new HashSet<>(); //set of empty productions
 
         for(String key : grammar.getProductions().keySet()){
@@ -41,7 +41,7 @@ public class ToCNF{
     }
 
     // creates list with new production with all combination of found occurrences
-    private ArrayList<String> newProdList(String s, String emptyP){
+    private static ArrayList<String> newProdList(String s, String emptyP){
         ArrayList<String> newProductions = new ArrayList<>();
         ArrayList<Integer> occurrences = new ArrayList<>();
         for(int i = 0; i < s.length(); i++){
@@ -58,7 +58,7 @@ public class ToCNF{
     }
 
     // creates combination of all occurrences of emptyProduction in the given production
-    private List<List<Integer>> generateCombinations(ArrayList<Integer> nums) {
+    private static List<List<Integer>> generateCombinations(ArrayList<Integer> nums) {
         List<List<Integer>> result = new ArrayList<>();
         backtrack(result, new ArrayList<>(), nums, 0);
         return result;
@@ -77,7 +77,7 @@ public class ToCNF{
     }
 
     //removers the emptyTransaction symbol found at a given position
-    private String removeCharsAtPositions(String inputString, List<Integer> positions) {
+    private static String removeCharsAtPositions(String inputString, List<Integer> positions) {
         StringBuilder stringBuilder = new StringBuilder(inputString);
 
         // Sort the positions in descending order so that we don't have to adjust
@@ -90,7 +90,7 @@ public class ToCNF{
         return stringBuilder.toString();
     }
 
-    public void rmUnitProd(){
+    private static void rmUnitProd(){
         for(String key : grammar.getProductions().keySet()){
             ArrayList<String> prodList = grammar.getProductions().get(key);
             for(int i = 0; i < prodList.size(); i ++){
@@ -103,9 +103,17 @@ public class ToCNF{
         }
     }
 
-    public Grammar getCopyModGrammar(){
+    //used to work with a copy for the given grammar
+    public static Grammar getCopyModGrammar(Grammar gr){
+        grammar = new Grammar(gr);
         rmEmptyProd();
         rmUnitProd();
         return grammar;
+    }
+    //used to work directly with the given grammar
+    public static void modifyGrammar(Grammar gr){
+        grammar = gr;
+        rmEmptyProd();
+        rmUnitProd();
     }
 }
