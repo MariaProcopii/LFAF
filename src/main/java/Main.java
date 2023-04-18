@@ -13,7 +13,10 @@ public class Main {
         Grammar grammar = new Grammar(vn, vt, prodKey, prodVal, startSymbol);
         Grammar grammar1 = ToCNF.getCopyModGrammar(grammar); //works with the copy of provided grammar
 
+        System.out.println(grammar.getNonTerminalVariables());
+        System.out.println(grammar.getTerminalVariables());
+        System.out.println(grammar.getStartSymbol());
         System.out.println(grammar.getProductions());
-        System.out.println(grammar1.getProductions());
+//        System.out.println(grammar1.getProductions());
     }
 }
