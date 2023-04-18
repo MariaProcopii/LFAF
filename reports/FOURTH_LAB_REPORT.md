@@ -1,4 +1,4 @@
-# Topic: Lexer & Scanner
+# Topic: Chomsky Normal Form
 
 ### Course: Formal Languages & Finite Automata
 ### Author: Procopii Maria
