@@ -19,7 +19,7 @@ Simplification: CNF simplifies the structure of a context-free grammar;
 Algorithmic efficiency;
 Language recognition;
 
-To modify a Context-free grammar into CNF we need to perform several steps:[2]
+To modify a Context-free grammar into CNF we need to perform several steps:[2] and [3]
 1. Eliminate ε productions. A -> ϵ
 2. Eliminate any renaming ( Unit-productions ). Production in form of A -> B, where A, B are non-termial.
 3. Eliminate inaccessible symbols. Symbol is called inaccessible, if it doesn’t exist S -> α1xα2, namely x doesn't appear in any deviation from the start symbol.
@@ -281,6 +281,7 @@ non-productive symbols, and acquiring the CNF, among other things. These procedu
 context-free grammar to a CNF, which makes analysis and processing simpler.
 
 ## References:
-[1] [Chomsky Normal Form Wiki](https://en.wikipedia.org/wiki/Chomsky_normal_form)
-[2] [LFPC Guide](https://else.fcim.utm.md/pluginfile.php/110458/mod_resource/content/0/LFPC_Guide.pdf)
+[1] [Chomsky Normal Form Wiki](https://en.wikipedia.org/wiki/Chomsky_normal_form) <br />
+[2] [LFPC Guide](https://else.fcim.utm.md/pluginfile.php/110458/mod_resource/content/0/LFPC_Guide.pdf)<br />
+[3] [Chomsky's Normal Form (CNF)](https://www.javatpoint.com/automata-chomskys-normal-form)
  
