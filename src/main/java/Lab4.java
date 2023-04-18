@@ -1,7 +1,7 @@
 import grammar.*;
 import grammarConversion.*;
 
-public class Main {
+public class Lab4 {
     public static void main(String[] args) {
         //LABORATORY WORK NR. 4
 

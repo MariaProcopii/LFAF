@@ -41,7 +41,7 @@ To modify a Context-free grammar into CNF we need to perform several steps:[2] a
 First I created a new class named `ToCNF` which contains implementation of all steps needed to convert the grammar in CNF. This class can be used to convert any grammar, not only the one from my variant (variant 23). To create utility class that contain general-purpose methods, I made all methods private and static. Also this enforces encapsulation since they can only be called from within the class in which they are defined. Constructor is also private for not being able to create an instance of the class `ToCNF`. Methods `getCopyModGrammar` and `modifyGrammar`are the only one which are public. They receives the grammar and apply all the methos which converts this grammar to CNF.
 `getCopyModGrammar` - can be used to work with a copy for the given grammar;
 `modifyGrammar` - can be used to work directly with the given grammar ( and modify it );
-In my `MainFLab3.java` I use `getCopyModGrammar` to be able to dysplay in the end the initial grammar and the modified one.
+In my `Lab4.java` I use `getCopyModGrammar` to be able to dysplay in the end the initial grammar and the modified one.
 First I create the `grammar` using the terminal, non-terminal symbols, starting point and productions from the given variant (23).
 ![image](https://user-images.githubusercontent.com/77497709/232716284-1973bcdb-e33a-4ddc-a0d3-c617227498ce.png)
 Obtain:
