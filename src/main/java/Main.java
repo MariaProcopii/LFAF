@@ -1,8 +1,6 @@
 import grammar.*;
 import grammarConversion.*;
 
-import java.util.*;
-
 public class Main {
     public static void main(String[] args) {
 
@@ -14,11 +12,8 @@ public class Main {
 
         Grammar grammar = new Grammar(vn, vt, prodKey, prodVal, startSymbol);
         Grammar grammar1 = ToCNF.getCopyModGrammar(grammar); //works with the copy of provided grammar
+
         System.out.println(grammar.getProductions());
         System.out.println(grammar1.getProductions());
-        ToCNF.modProductoinCNF();
-        System.out.println(grammar1.getProductions());
-//        ToCNF.modifyGrammar(grammar);
-//        System.out.println(grammar.getProductions());
     }
 }

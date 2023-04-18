@@ -9,6 +9,9 @@ public class ToCNF{
 
     private static Grammar grammar;
     private static int count = 0;
+    private static HashMap<String, ArrayList<String>> newProductions = new HashMap<>();
+    private static HashMap<String, String> newProdLookUp = new HashMap<>(); //value - key
+
 
     //for not being able to make the instance of the ToCNF class
     private ToCNF(){}
@@ -177,6 +180,7 @@ public class ToCNF{
     }
 
     public static void modProductoinCNF(){
+        //replace terminal symbols with new productions
         HashMap<String, String> terminalNewProd = new HashMap<>();
         for(String vn : grammar.getTerminalVariables()){
             String key = newLP();
@@ -184,22 +188,84 @@ public class ToCNF{
             terminalNewProd.put(vn, key);
         }
 
+        //find all occurrences of all terminal symbols and replace it with new productions
         for(String prodLeft : grammar.getProductions().keySet()) {
             ArrayList<String> prodList = grammar.getProductions().get(prodLeft);
+
             for (int i = 0; i < prodList.size(); i++) {
-                String s = prodList.get(i);
+                StringBuilder newRightProd = new StringBuilder();
+                newRightProd.append(prodList.get(i));
 
+                for(String vt : grammar.getTerminalVariables()){
+                    int index = newRightProd.indexOf(vt);
 
-//                if(s.length() == 1 && prodLeft.charAt(0) != 'X'){
-//                    prodList.remove(i);
-//                    prodList.add(i, terminalNewProd.get(s));
-//                }
+                    if(newRightProd.length() > 1){ //don't replace single terminal symbols Ex: S -> a
+                        while(index >= 0) {
+                            newRightProd.replace(index, index + 1, terminalNewProd.get(vt));
+                            index = newRightProd.indexOf(vt);
+                        }
+                    }
+                }
+                prodList.set(i, newRightProd.toString());
             }
+            //modify the productions using Chomsky Normal Form standards
+            // ( two non-terminal symbol or one terminal ) Ex: A -> AS | a
+            prodList.replaceAll(ToCNF::groudProd);
         }
+        grammar.getProductions().putAll(newProductions);
     }
 
-    public static String newLP(){
+    private static String newLP(){
         return "X" + count++;
+    }
+
+    //used to make the groups of two
+    private static String groudProd(String prod){
+
+        int amount = 0;
+        for (char s : prod.toCharArray()) {
+            if (s == 'X') {
+                amount++;
+            }
+        }
+
+        while (prod.length() - amount > 2){
+            int append = 0;
+            StringBuilder newGroup = new StringBuilder();
+            for(int i = 0; i < prod.length(); i++){
+                if(append < 2){
+                    if(prod.charAt(i) == 'X'){
+                        append++;
+                        newGroup.append(prod.substring(i, i + 2));
+                        i++;
+                    }
+                    else{
+                        append++;
+                        newGroup.append(prod.substring(i, i + 1));
+                    }
+                }
+            }
+
+            String newG = newGroup.toString();
+            if(newProdLookUp.keySet().contains(newG)){
+                prod = prod.replace(newG, newProdLookUp.get(newG));
+            }
+            else{
+                String newLP = newLP();
+                newProductions.put(newLP, new ArrayList<>(Arrays.asList(newG)));
+                newProdLookUp.put(newG, newLP);
+                grammar.getNonTerminalVariables().add(newLP);
+                prod = prod.replace(newG, newLP);
+            }
+
+            amount = 0;
+            for (char s : prod.toCharArray()) {
+                if (s == 'X') {
+                    amount++;
+                }
+            }
+        }
+        return prod;
     }
 
     //used to work with a copy for the given grammar
@@ -209,6 +275,7 @@ public class ToCNF{
         rmUnitProd();
         rmInaccessibleProd();
         //rmNonProdSymbols() is used in rmInaccessibleProd()
+        modProductoinCNF();
         return grammar;
     }
     //used to work directly with the given grammar
@@ -218,5 +285,6 @@ public class ToCNF{
         rmUnitProd();
         rmInaccessibleProd();
         //rmNonProdSymbols() is used in rmInaccessibleProd()
+        modProductoinCNF();
     }
 }
