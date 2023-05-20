@@ -1,0 +1,75 @@
+P = {
+	<program> -> <statement> | 
+		     <statement><program>
+
+	<statement> -> <expression> |
+		       <expression><statement>
+
+	<expression> ->  <id> | <literal> | <conditional> | 
+			 <id><assign><literal> |
+                	 <id><assign><expression> |
+			 <for expression> |
+		         <array> | <bool><function> |
+			 <function call> | 
+			 <expression><logical operator><expression> | 
+			 <expression><arithmetic operator><expression> |
+			 <sufix><id> | <id><suffix> |
+			 <comment> |
+			 <return expression>
+
+	<return expression> -> return <expression> | return
+							 
+	<literal> -> <string> | <int> | <bool>
+
+	<id> -> <text_char><id> | <text_char>
+
+	<comment> -> //<string>
+
+	<text_char> -> <letter><digit><symbol><text_char> | <letter><digit><symbol>
+
+	<string> -> "<text_char>"
+
+	<int> -> <digit><int> | <digit>
+
+	<conditional> -> if (<expression>) {<program>} |
+			 unless (<expression>) {<program>} |
+			 if (<expression>) {<program>} else {<program>} |
+			 unless (<expression>) {<program>} then {<program>}
+
+	<for expression> -> for (<expression>;<expression;<expression>) {<program>} |
+			    for (;<expression>;<expression>) {<program>} 
+
+	<array> -> [<element>] | []
+
+	<element> -> <id>,<element> |
+		     <literal>,<element> |
+		     <id> | <literal>
+
+	<function call> -> <id>(<args>) | <id>()
+
+	<args> -> <expression> | 
+		  <expression>, <args>
+
+	<function> -> def <id>(<param>) {<program>} |
+		      def <id>() {<program>}
+
+	<param> -> <id> | <id>, <param>
+ 
+	<bool> -> true | false
+
+	<type> -> <int> | <string> | <bool
+	
+	<letter> -> a | b | ... | z | A | B | ... | Z | _ 
+	
+	<digit> ->  0 | 1 | ... | 9 | ε
+
+	<symbol> -> ! | @ | # | $ | % | ... | ε
+
+	<logical operator> -> && | || | > | < | >= | <= | == | != 
+
+	<arithmetic operator> -> * | / | + | - 
+	
+	<sufix> -> ++ | --
+
+	<assign> -> =
+}

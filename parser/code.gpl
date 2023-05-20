@@ -1,0 +1,12 @@
+var x = 10
+var y = 2
+
+def add(x, y) { return x + y }
+
+if (y > 1) { 
+    var z = add(x, y) 
+} else { 
+    var z = add(x, 20) 
+}
+
+z
